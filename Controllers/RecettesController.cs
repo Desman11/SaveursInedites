@@ -22,6 +22,11 @@ namespace SaveursInedites.Controllers
                 throw new Exception("Error : Connexion string not found ! ");
             }
         }
+        
+        /// <summary>
+        /// Action permettant d'afficher toutes les recettes
+        /// </summary>
+        /// <returns>la vue html affichant toutes les recttes</returns>
         public IActionResult Index()
         {
             string query = "SELECT * FROM Recettes";
