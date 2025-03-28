@@ -30,9 +30,9 @@ namespace SaveursInedites.Controllers
         }
 
         /// <summary>
-        /// Retourne le forulaire d'inscription
+        /// Retourne le formulaire d'inscription
         /// </summary>
-        /// <returns></returns>
+        /// <returns>la vue html du formulaire d'inscription</returns>
         [HttpGet]
         public IActionResult SignUp()
         {
