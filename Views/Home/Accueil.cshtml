@@ -1,0 +1,118 @@
+﻿@model Views_Home_Accueil
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Saveurs Inédites</title>
+    <link rel="stylesheet" href="~/css/normalize.css">
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo_wrapper">
+            <div class="q_logo"><span>Saveurs Inédites</span></div>
+        </div>
+
+        <nav class="menu">
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Accueil</a></li>
+                <li><a asp-controller="Recette" asp-action="Index">Recettes</a></li>
+                <li><a asp-controller="Recette" asp-action="MesRecettes">Mes Recettes</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>🍽️ Bienvenue sur Saveurs Inédites !</h1>
+            <p>Découvrez des recettes savoureuses et partagez vos propres créations culinaires.</p>
+        </section>
+
+        <section class="search-section">
+            <form asp-controller="Recette" asp-action="Index" method="get" class="search-form">
+                <input type="text" name="search" placeholder="Rechercher une recette ou un ingrédient..." />
+                <button type="submit">🔍 Rechercher</button>
+            </form>
+        </section>
+
+        <section class="categories">
+            <h2>📑 Catégories</h2>
+            <div class="categories-grid">
+                <a asp-controller="Recette" asp-action="Index" asp-route-categorie="Apéritif" class="categorie">
+                    <img src="~/images/Catégories/Apéritif/feuilletee-chaource-1148x1536.jpeg" alt="Apéritif">
+                    <span>Apéritif</span>
+                </a>
+                <a asp-controller="Recette" asp-action="Index" asp-route-categorie="Soupe" class="categorie">
+                    <img src="~/images/Catégories/Soupe/soupe.jpeg" alt="Soupe">
+                    <span>Soupe</span>
+                </a>
+                <a asp-controller="Recette" asp-action="Index" asp-route-categorie="Entrée" class="categorie">
+                    <img src="~/images/Catégories/Entrée/salade.jpeg" alt="Entrée">
+                    <span>Entrées</span>
+                </a>
+                <a asp-controller="Recette" asp-action="Index" asp-route-categorie="Plats" class="categorie">
+                    <img src="~/images/Catégories/Plats/pot.jpeg" alt="Plats">
+                    <span>Plats</span>
+                </a>
+                <a asp-controller="Recette" asp-action="Index" asp-route-categorie="Plats végétariens" class="categorie">
+                    <img src="~/images/Catégories/Végétarien/haricot.jpeg" alt="Plats végétariens">
+                    <span>Plats Végétariens</span>
+                </a>
+                <a asp-controller="Recette" asp-action="Index" asp-route-categorie="Desserts" class="categorie">
+                    <img src="~/images/Catégories/Desserts/tarte.jpeg" alt="Desserts">
+                    <span>Desserts</span>
+                </a>
+            </div>
+            </section>
+
+        @* <section class="latest-recipes">
+            //   <h2>🆕 Dernières recettes ajoutées</h2>
+            //  @if (Model.Any())
+                //   {
+                //    <div class="recettes-grid">
+            //     @foreach (var recette in Model.Take(5))
+                // {
+                       // <div class="recette-card">
+                          //  <img src="@recette.ImageUrl" alt="Image de @recette.Nom" />
+                           // <h3>@recette.Nom</h3>
+                           // <p>@recette.Description.Substring(0, Math.Min(100, recette.Description.Length))...</p>
+                           // <a asp-controller="Recette" asp-action="Details" asp-route-id="@recette.Id">Voir la recette</a>
+                       // </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <p>Aucune recette disponible. <a asp-controller="Recette" asp-action="Creer">Ajoutez-en une !</a></p>
+            }
+        </section>*@
+    </main>
+
+    <footer class="footer">
+        <div class="icons-wrapper">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <nav class="footer-nav">
+            <ul>
+                <li><a asp-controller="Home" asp-action="Index">Accueil</a></li>
+                <li><a asp-controller="Recette" asp-action="Index">Recettes</a></li>
+                <li><a asp-controller="Recette" asp-action="MesRecettes">Mes Recettes</a></li>
+                <li><a asp-controller="Home" asp-action="Contact">Contact</a></li>
+            </ul>
+        </nav>
+        <p>&copy; 2025 Saveurs Inédites - Tous droits réservés. <a asp-controller="Home" asp-action="MentionsLegales">Mentions Légales</a></p>
+    </footer>
+
+    <script src="~/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,935 @@
+/* =============================================
+   1. RESET ET STYLES GLOBAUX
+============================================= */
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f1ebeb;
+}
+.bodyspecial {
+
+    background-image: url('/images/fond-hiver.jpg');
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+  
+  
+
+}
+
+
+/* =============================================
+   2. HEADER & MENU
+============================================= */
+header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    color: #fff;
+}
+
+.q_logo {
+    font-size: 25px;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    letter-spacing: 1px;
+    font-family: 'Hind', sans-serif;
+    border-bottom: white 3px solid;
+    border-top: white 3px solid;
+    padding: 10px;
+    margin: 0;
+}
+
+    .menu {
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.menu{
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.menu {
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+    .menu ul {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+    }
+
+        .menu ul li {
+            margin: 0 20px;
+            position: relative;
+        }
+
+            .menu ul li a {
+                color: white;
+                display: block;
+                text-align: center;
+                padding: 10px;
+                text-decoration: none;
+                font-size: 17px;
+            }
+
+                .menu ul li a:hover,
+                .dropdown:hover .dropbtn {
+                    background-color: rgba(255, 255, 255, 0.2);
+                    border-radius: 5px;
+                }
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: -1;
+}
+
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: white;
+}
+
+.menu.responsive ul {
+    display: flex;
+    /* Affiche les éléments du menu */
+}
+
+@media screen and (max-width: 768px) {
+    .menu ul {
+        display: none;
+        flex-direction: column;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+}
+
+/* =============================================
+   3. CONTENUS PRINCIPAUX (Main, Sections, Backgrounds)
+============================================= */
+.background-container,
+.saveursinedits {
+    background-image: url('/images/fond-hiver.jpg');
+    background-position: center;
+    background-size: cover;
+    background-attachment: fixed;
+    width: 100%;
+    height: 300px;
+    /*position: relative;*/
+}
+
+
+.admin-content {
+    width: 100%;
+    padding: 20px;
+    
+    height: 100vh;
+}
+.main-content {
+    padding: 60px 0;
+    text-align: center;
+    color: white;
+}
+
+.accueil-content {
+    padding: 20px;
+    background-color: #fff;
+    text-align: center;
+}
+
+.title_subtitle_holder {
+    font-size: 47px;
+    line-height: 60px;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    text-transform: none;
+}
+
+/* =============================================
+   4. FORMULAIRE DE CONNEXION
+============================================= */
+#auth-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#login-form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+   
+}
+
+    input:focus {
+        border-color: #c49a10;
+        outline: none;
+    }
+
+button {
+    padding: 10px;
+    background-color: #d31e1e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    button:hover {
+        background-color: #b21d1d;
+    }
+
+.toggle {
+    margin-top: 15px;
+}
+
+/* =============================================
+   5. back to top
+============================================= */
+#back_to_top {
+    display: inline-block;
+    position: fixed;
+    bottom: 65px;
+    right: 25px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    /* Fond semi-transparent */
+    color: #000;
+    text-align: center;
+    line-height: 52px;
+    font-size: 22px;
+    opacity: 0;
+    /* Masqué par défaut */
+    visibility: hidden;
+    /* Invisible par défaut */
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    /* Transition progressive */
+    z-index: 10000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Ombre douce */
+    cursor: pointer;
+}
+
+    #back_to_top.on {
+        opacity: 1;
+        /* Visible */
+        visibility: visible;
+    }
+
+    /* Effet au survol */
+    #back_to_top:hover {
+        background-color: rgba(231, 220, 220, 0.2);
+        /* Légère transparence au survol */
+        transform: scale(1.05);
+    }
+
+
+/* =============================================
+   6. FOOTER
+============================================= */
+.footer {
+    display: flex;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #968e8e;
+    color: white;
+    text-align: center;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    padding: 10px 20px;
+}
+
+.logo_wrapper {
+    margin-left: 0;
+}
+
+.acceuil-container {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    /* 3 colonnes */
+    grid-template-rows: repeat(2, 300px);
+    /* 2 lignes */
+    gap: 80px;
+    justify-content: center;
+    /* Centre les colonnes si elles sont incomplètes */
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 70px;
+}
+
+.categorie {
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    text-align: center;
+    background: whites;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card-categorie-image img {
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.catexte {
+    font-size: 20px;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 1px;
+    font-family: 'Hind', sans-serif;
+}
+
+.contentacceuil {
+    max-width: 1000%;
+    /* Limite la largeur max */
+    background: #f1ebeb;
+    /* Fond blanc */
+    padding: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.display-recherche {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+input#searchsubmit {
+    padding-top: 2px;
+    font-size: 15px;
+    font-weight: 600;
+    width: 200px;
+}
+
+#searchsubmit {
+    background-color: #d31e1e;
+    width: auto;
+    color: #FFFFFF;
+    border-radius: 60px;
+    height: 50px;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 0 4%;
+    border: none;
+    float: right;
+}
+
+#s {
+    background-color: white;
+    border-radius: 10px;
+    font-size: 21px;
+    padding-left: 30px;
+    border: 0;
+    height: 50px;
+    flex: 1;
+    min-width: 770px;
+}
+
+.aperitif {
+    font-family: 'Montserrat', sans-serif;
+    width: 50%;
+    color: #353535;
+    font-size: 18px;
+}
+
+.aperitif-container {
+    padding-top: 30px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.p {
+    color: #353535;
+    font-size: 18px
+}
+
+ul.ingreaperitif {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.etapeaperitif {
+    font-family: 'Hind', sans-serif;
+    color: #353535;
+    font-size: 18px;
+    list-style-type: none;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+/* Ligne séparatrice */
+.line-separator {
+    margin-top: 20px;
+    width: 4%;
+    /* Ajuste la largeur de la ligne */
+    height: 2px;
+    background-color: black;
+    margin-bottom: 20px;
+    /* Centrer la ligne en utilisant auto pour la marge gauche et droite */
+}
+
+.etapeaperitif > li {
+    margin-bottom: 10px;
+    /* Ajoute un espace de 10px entre chaque élément */
+}
+
+strong {
+    font-size: 20px;
+    line-height: 1.25em;
+    color: #303030;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.contact-button:hover {
+    background-color: #e65c00;
+    /* Couleur légèrement plus foncée */
+    transform: scale(1.05);
+}
+
+.footer {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    background-color: #333;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.icons-wrapper {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    width: 80%;
+    max-width: 1200px;
+}
+
+/* Style du bouton contact */
+.contact-button {
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 6px 12px;
+    border: 1px solid #ffffff;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+    .contact-button:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+
+.footer-copyright {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+    .footer-copyright a {
+        color: white;
+        text-decoration: underline;
+    }
+
+a.categorie {
+    text-decoration: none;
+    /* Supprime le soulignement */
+    color: inherit;
+    /* Utilise la couleur du texte parent */
+    display: block;
+    /* S'assure que tout le bloc est cliquable */
+}
+
+    a.categorie:hover {
+        color: inherit;
+        /* Empêche le changement de couleur au survol */
+    }
+
+/*carousel*/
+
+
+body {
+    background: #cac7c7;
+}
+
+#carousel-area {
+    position: relative;
+    overflow: hidden;
+    top: 50%;
+    height: 600px;
+    height: auto;
+}
+
+#carousel {
+    position: relative;
+    height: 380px;
+    width: 100%;
+    margin: 280px auto 60px auto;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+}
+
+    #carousel div {
+        position: absolute;
+        width: 320px;
+        height: 320px;
+        transition: transform 1s ease-out, width 0.5s, height 0.5s, left 1s, opacity 1s, z-index 1s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 1;
+        clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        background-color: #559481;
+        overflow: hidden;
+    }
+
+    #carousel .img-wrap .img-text {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #559481;
+        opacity: 0;
+        z-index: 11;
+        transition: 0.4s;
+        pointer-events: none;
+        font-family: "Ephesis";
+        font-weight: 300;
+        font-size: 1rem;
+        letter-spacing: 0.05rem;
+        line-height: 2;
+        z-index: 1;
+    }
+
+    #carousel .img-wrap {
+        width: 100%;
+        height: 100%;
+        clip-path: polygon(31% 1%, 69% 1%, 99% 31%, 99% 69%, 69% 99%, 31% 99%, 1% 69%, 1% 31%);
+        object-fit: cover;
+        overflow: hidden;
+        transition: transform 1s ease-out, width 0.5s, height 0.5s, left 1s, opacity 1s, z-index 1s;
+    }
+
+.img-wrapper img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.5s, opacity 0.5s, filter 0.5s;
+    mix-blend-mode: normal;
+}
+
+#carousel div.prev {
+    z-index: 5;
+    left: 28%;
+    width: 280px;
+    height: 280px;
+    transform: translateY(0%) translateX(-50%);
+}
+
+    #carousel div.prev .img-wrap {
+        width: 280px;
+        height: 280px;
+        overflow: hidden;
+        clip-path: polygon(31% 1%, 69% 1%, 99% 31%, 99% 69%, 69% 99%, 31% 99%, 1% 69%, 1% 31%);
+    }
+
+    #carousel div.prev img {
+        transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    #carousel div.prev:hover img {
+        filter: brightness(70%);
+        transform: scale(1.2);
+    }
+
+    #carousel div.prev:hover .img-text {
+        opacity: 1;
+    }
+
+#carousel div.prevLeftSecond {
+    z-index: 2;
+    left: 40%;
+    width: 230px;
+    height: 230px;
+    transform: translateY(5%) translateX(-65%);
+    filter: brightness(60%);
+}
+
+    #carousel div.prevLeftSecond .img-wrap {
+        width: 230px;
+        height: 230px;
+    }
+
+#carousel div.selected {
+    z-index: 10;
+    left: 50%;
+    transform: translateY(0%) translateX(-50%);
+}
+
+    #carousel div.selected:hover .img-text {
+        opacity: 1;
+    }
+
+    #carousel div.selected img {
+        transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    #carousel div.selected:hover img {
+        filter: brightness(70%);
+        transform: scale(1.2);
+    }
+
+#carousel div.next {
+    z-index: 5;
+    left: 72%;
+    width: 280px;
+    height: 280px;
+    transform: translateY(0%) translateX(-50%);
+}
+
+    #carousel div.next .img-wrap {
+        width: 280px;
+        height: 280px;
+    }
+
+    #carousel div.next img {
+        transition: transform 0.5s ease, filter 0.5s ease;
+    }
+
+    #carousel div.next:hover img {
+        filter: brightness(70%);
+        transform: scale(1.2);
+    }
+
+    #carousel div.next:hover .img-text {
+        opacity: 1;
+    }
+
+#carousel div.nextRightSecond {
+    z-index: 2;
+    left: 60%;
+    width: 230px;
+    height: 230px;
+    transform: translateY(5%) translateX(-35%);
+    filter: brightness(60%);
+}
+
+    #carousel div.nextRightSecond .img-wrap {
+        width: 230px;
+        height: 230px;
+    }
+
+.hideLeft {
+    left: 0%;
+    opacity: 0;
+    transform: translateY(0%) translateX(-50%);
+}
+
+.hideRight {
+    left: 100%;
+    opacity: 0;
+    transform: translateY(0%) translateX(-50%);
+}
+
+.buttons {
+    position: absolute;
+    top: 500px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+    .buttons .icon-btn {
+        background: none;
+        border: none;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+        .buttons .icon-btn .icon-img {
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            margin: 0 25px;
+            transition: filter 0.3s ease;
+        }
+
+        .buttons .icon-btn:hover .icon-img {
+            filter: invert(42%) saturate(1352%) hue-rotate(140deg) brightness(120%) contrast(119%);
+        }
+
+        .buttons .icon-btn:active .icon-img {
+            transform: translateY(2px);
+            filter: hue-rotate(150deg) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+        }
+
+.img-wrap img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.info {
+    font-size: 20px;
+    line-height: 1.25em;
+    color: #303030;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    list-style: none;
+    padding-left: 0;
+}
+
+.checked {
+    color: orange;
+}
+.no-number {
+    list-style-type: none;
+    padding-left: 0;
+}
+/*Déposer recette*/
+#recipe-form {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 800px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+    #recipe-form h1 {
+        font-size: 32px;
+        text-align: center;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+    input:focus, textarea:focus, select:focus {
+        border-color: #c49a10;
+        outline: none;
+    }
+
+.buttondepot {
+    margin: auto;
+    padding: 12px 20px;
+    background-color: #d31e1e;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 30%;
+    ;
+}
+
+    .buttondepot:hover {
+        background-color: #b21d1d;
+    }
+
+.icons {
+    display: flex;
+}
+
+.icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+    .icon:hover {
+        transform: scale(1.2);
+    }
+
+.difficulty, .cost {
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    padding: 5px;
+}
+
+input[type="number"] {
+    width: 80px;
+    display: inline-block;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.menubas ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+    .menubas ul li {
+        margin: auto;
+    }
+
+        .menubas ul li a {
+            color: white;
+            display: block;
+            text-align: center;
+            padding: 10px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+
+            .menubas ul li a:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+                border-radius: 5px;
+            }
+
+/*mes recettes*/
+.containermr {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    justify-content: space-evenly;
+}
+
+.icon-buttonmr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    padding: 10px;
+    z-index: 1; /* Assure que le bouton soit cliquable */
+}
+
+    /* Change la couleur du fond de survol pour un effet subtil */
+    .icon-buttonmr:hover {
+        background-color: #f0f0f0;
+    }
+
+        /* Affichage du texte au survol */
+        .icon-buttonmr:hover + .textmr {
+            display: block;
+        }
+
+/* Style pour le texte affiché */
+.textmr {
+    display: none;
+    position: absolute;
+    top: 100%; /* Affiche le texte juste sous l'icône */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    white-space: nowrap;
+    z-index: 10; /* S'assurer que le texte est au-dessus de l'icône mais ne bloque pas les autres éléments */
+}

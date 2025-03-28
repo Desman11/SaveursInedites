@@ -1,0 +1,35 @@
+﻿@model List<Utilisateur>
+@{
+    ViewData["Title"] = "Utilisateurs";
+}
+@if (TempData.ContainsKey("ValidateMessage"))
+{
+    <p>@TempData["ValidateMessage"]</p>
+}
+<div>
+    <h1>Utilisateur</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Identifiant</th>
+                <th>Email</th>
+                <th>Password</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var utilisateur in @Model!)
+            {
+                <tr>
+                    <td>@(utilisateur.Id)</td>
+                    <td>@(utilisateur.identifiant)</td>
+                    <td>@(utilisateur.email)</td>
+                    <td>@(utilisateur.password)</td>
+                    <td><a asp-controller="Utilisateurs" asp-action="Detail" asp-route-id=@(utilisateur.Id)>Detail</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+>

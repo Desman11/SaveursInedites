@@ -1,0 +1,46 @@
+﻿@model EditeurRecetteViewModel
+<h1>Nouvelle Recette :</h1>
+<form asp-controller="Recettes" asp-action="Nouveau" method="post" enctype="multipart/form-data">
+    <table>
+        <tr>
+            <td><label asp-for="@Model.recette.nom"></label></td>
+            <td><input asp-for="@Model.recette.nom"></td>
+            <td><span asp-validation-for="@Model.recette.nom" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.recette.temps_preparation"></label></td>
+            <td><input asp-for="@Model.recette.temps_preparation"></td>
+            <td><span asp-validation-for="@Model.recette.temps_preparation" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.recette.temps_cuisson"></label></td>
+            <td><input asp-for="@Model.recette.temps_cuisson"></td>
+            <td><span asp-validation-for="@Model.recette.temps_cuisson" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.recette.difficulte"></label></td>
+            <td><input asp-for="@Model.recette.difficulte"></td>
+            <td><span asp-validation-for="@Model.recette.difficulte" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.recette.categories_ids"></label></td>
+            <td><select asp-for="@Model.recette.categories_ids" asp-items="@Model.categories"></select></td>
+            <td><span asp-validation-for="@Model.recette.categories_ids" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.recette.couvertureFile"></label></td>
+            <td><input asp-for="@Model.recette.couvertureFile"></td>
+            <td><span asp-validation-for="@Model.recette.couvertureFile" class="text-danger"></span></td>
+        </tr>
+    </table>
+    <input type="submit" value="Envoyer">
+</form>
+
+@if (ViewData.ContainsKey("ValidateMessage"))
+{
+    <p>@ViewData["ValidateMessage"]</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}  

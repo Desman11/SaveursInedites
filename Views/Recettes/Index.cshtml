@@ -1,0 +1,42 @@
+﻿@model List<Recette>
+
+@{
+    ViewData["Title"] = "Utilisateurs";
+}
+
+@if (TempData.ContainsKey("ValidateMessage"))
+{
+    <p>@TempData["ValidateMessage"]</p>
+}
+
+<div>
+    <h1>Recette</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Temps de Préparation</th>
+                <th>Temps de Cuisson</th>
+                <th>Difficulté</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var recette in Model)
+            {
+                <tr>
+                    <td>@recette.id</td>
+                    <td>@recette.nom</td>
+                    <td>@recette.temps_preparation</td>
+                    <td>@recette.temps_cuisson</td>
+                    <td>@recette.difficulte</td>
+                    <td>
+                        <a asp-controller="Recettes" asp-action="Detail" asp-route-id="@recette.id">Détails</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

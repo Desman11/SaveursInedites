@@ -1,0 +1,67 @@
+﻿@model Recette
+
+<div class="main-content">
+    <div class="title_subtitle_holder">
+        <h1></h1>
+    </div>
+</div>
+        </main>
+    </div>
+
+<div class="aperitif-container">
+
+
+    <div class="aperitif">
+        <h1 class="titleaperitit"></h1>
+        <div class="line-separator"></div>
+        <div class="card-categorie-image">
+            <a href="#" class="dropbtn" onclick="toggleDropdown(event, 'compteDropdown')">
+                <img src="@Model.photo" width="250" height="250" viewBox="0 0 24 24">
+                <path fill="#fff"></path>
+            </a>
+        </div>
+        <div class="line-separator"></div>
+
+        <ul class="info">
+            <li>Preparation : @Model.temps_preparation</li>
+            <li>Cuisson : @Model.temps_cuisson</li>
+            <li>Difficulte : @Model.difficulte</li>
+        </ul>
+
+        <span>Ingrédients :</span>
+        <div class="ingredient"></div>
+        @if (Model.Ingredients != null && Model.Ingredients.Any())
+        {
+            <ol       class="no-number">
+                @foreach (var ingredient in Model.Ingredients)
+                {
+                    <li>
+                        @ingredient.Nom
+                    </li>
+                }
+            </ol>
+        }
+        else
+        {
+            <p>Aucun ingrédient disponible.</p>
+        }
+            <div class="etapeaperitif"></div>
+        @if (Model.Etapes != null && Model.Etapes.Any())
+        {
+            <ol class="no-number">
+        @foreach (var etape in Model.Etapes)
+        {
+           <li>             
+        @etape.texte
+                    </li>
+                }
+        </ol>
+            }
+            else
+            {
+                <p>Aucune étape disponible.</p>
+            }
+        </div>
+ 
+    </div>
+

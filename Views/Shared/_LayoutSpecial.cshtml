@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - SaveursInedites</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/SaveursInedites.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<title>Accueil</title>
+
+</head>
+<body class="bodyspecial">
+	
+		<header>
+			<div class="logo_wrapper">
+				<div class="q_logo"><span>Saveurs Inédites</span></div>
+			</div>
+
+		</header>
+		<div class="main-content">
+			<div class="title_subtitle_holder">
+				<h1>@ViewData["titrePage"]</h1>
+
+			</div>
+		</div>
+
+		<main role="main" class="">
+			@RenderBody()
+		</main>
+
+		<!-- Pied de page -->
+		<footer class="footer">
+		
+			<div class="footer-content">
+				<div class="logo_wrapper">
+					<div class="q_logo"><span>Saveurs Inédites</span></div>
+				</div>
+
+			</div>
+			<div class="footer-copyright">
+				&copy; 2025 Tous droits réservés. / <a href="#">Mentions Légales</a>
+			</div>
+		</footer>
+	
+		@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
