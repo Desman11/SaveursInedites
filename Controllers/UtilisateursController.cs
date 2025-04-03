@@ -3,6 +3,7 @@ using Npgsql;
 using SaveursInedites.Models;
 using Dapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SaveursInedites.Controllers
 {
@@ -38,11 +39,28 @@ namespace SaveursInedites.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult Nouveau()
         {
+            // récupération des rôles dans la bdd
+            string queryRoles = "SELECT * FROM Roles";
+            List<Role> roles;
+            using (var connexion = new NpgsqlConnection(_connexionString))
+            {
+                roles = connexion.Query<Role>(queryRoles).ToList();
+            }
+            // création de la list des select items
+            List<SelectListItem> listeRoles = new List<SelectListItem>();
+            foreach (Role role in roles)
+            {
+                listeRoles.Add(new SelectListItem(role.nom, role.id.ToString()));
+            }
+            ViewData["listeRoles"] = listeRoles;
+            // retourne la vue spécifiée (qui est dans le dossier Utilisateurs)
             return View("NouveauUtilisateur");
         }
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public IActionResult Nouveau([FromForm] Utilisateur utilisateur)
         {
             // validation côté serveur
@@ -53,7 +71,7 @@ namespace SaveursInedites.Controllers
                 return View("EditeurUtilisateur", utilisateur);
             }
             // si le modèle est valide
-            string query = "INSERT INTO Utilisateurs(nom,prenom,email,date_inscription,role_id) VALUES (@nom,@prenom,@email,NOW(),@role_id)";
+            string query = "INSERT INTO Utilisateurs(nom,prenom,email,role_id) VALUES (@nom,@prenom,@email,@role_id)";
             int res;
             using (var connexion = new NpgsqlConnection(_connexionString))
             {

@@ -15,6 +15,7 @@
 	<div! class="background-container">
 		<header>
 			<div class="logo_wrapper">
+				<partial name="_CookieConsentPartial" />
 				<div class="q_logo"><span>Saveurs Inédites</span></div>
 			</div>
 
@@ -26,7 +27,10 @@
 					<li class ="nav-item">
 						<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 					<li><a href="./recherche.html">Recherche</a></li>
+
+
 					<li><a href="./recettes.html">Recettes</a></li>
+
 					<li><a href="./mesrecettes.html">Mes Recettes</a></li>
 					@*<li class="dropdown compte">
 						<a href="#" class="dropbtn" onclick="toggleDropdown(event, 'compteDropdown')">
@@ -75,11 +79,11 @@
 		<!-- Add icon library -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		<span class="fa fa-star checked"></span>
+		@* <span class="fa fa-star checked"></span>
 		<span class="fa fa-star checked"></span>
 		<span class="fa fa-star checked"></span>
 		<span class="fa fa-star"></span>
-		<span class="fa fa-star"></span>
+		<span class="fa fa-star"></span> *@
 		
 		<a id="back_to_top" href="#" class="on">
 			<span class="circle">

@@ -1,0 +1,22 @@
+﻿@model Role
+<h1>Nouveau Role :</h1>
+<form asp-controller="Roles" asp-action="Nouveau" method="post">
+    <table>
+        <tr>
+            <td><label asp-for="@Model.nom"></label></td>
+            <td><input asp-for="@Model.nom"></td>
+            <td><span asp-validation-for="@Model.nom" class="text-danger"></span></td>
+        </tr>
+
+    </table>
+    <input type="submit" value="Envoyer">
+</form>
+@if (ViewData.ContainsKey("ValidateMessage"))
+{
+    <p>@ViewData["ValidateMessage"]</p>
+}
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+

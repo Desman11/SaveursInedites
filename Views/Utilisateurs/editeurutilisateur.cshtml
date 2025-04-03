@@ -1,0 +1,39 @@
+﻿@model Utilisateur
+@{
+    List<SelectListItem> listeRoles = (List<SelectListItem>)ViewData["listeRoles"];
+}
+<h1>Nouveau utilisateur</h1>
+<form asp-controller="Utilisateurs" asp-action="nouveau" method="post">
+    <table>
+        <tr>
+            <td><label asp-for="@Model.identifiant"></label></td>
+            <td><input asp-for="@Model.identifiant"></td>
+            <td><span asp-validation-for="@Model.identifiant" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.email"></label></td>
+            <td><input asp-for="@Model.email"></td>
+            <td><span asp-validation-for="@Model.email" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="@Model.role_id"></label></td>
+            <td><select asp-for="@Model.role_id" asp-items="@listeRoles"></select></td>
+            <td><span asp-validation-for="@Model.role_id" class="text-danger"></span></td>
+        </tr>
+        <tr>
+            <td><label asp-for="password"></label></td>
+            <td><input asp-for="password" type="password" class="form-control" required /></td>
+            <td><span asp-validation-for="password" class="text-danger"></span></td>
+        </tr>
+    </table>
+    <input type="submit" value="Envoyer">
+</form>
+
+@if (ViewData.ContainsKey("ValidateMessage"))
+{
+    <p>@ViewData["ValidateMessage"]</p>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

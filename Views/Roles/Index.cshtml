@@ -1,0 +1,31 @@
+﻿@model List<Role>
+@{
+    ViewData["Title"] = "Roles";
+}
+@if (TempData.ContainsKey("ValidateMessage"))
+{
+    <p>@TempData["ValidateMessage"]</p>
+}
+<div>
+    <h1>Roles</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Role in @Model!)
+            {
+                <tr>
+                    <td>@(Role.id)</td>
+                    <td>@(Role.nom)</td>
+                    <td><a asp-controller="Roles" asp-action="Detail" asp-route-id=@(Role.id)>Detail</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
