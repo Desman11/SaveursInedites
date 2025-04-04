@@ -153,12 +153,12 @@ public class RecettesController : Controller
                 connexion.Open();
                 using (var transaction = connexion.BeginTransaction())
                 {
-                    // insert du livre et récupération de son id
+                    // insert d'une recette et récupération de son id
                     int recette_id = connexion.ExecuteScalar<int>(query, recette);
                     if (recette_id == 0)
                     {
                         transaction.Rollback();
-                        throw new Exception("Erreur pendant la création du livre.");
+                        throw new Exception("Erreur pendant la création de la recette.");
                     }
                     else
                     {
@@ -179,82 +179,7 @@ public class RecettesController : Controller
                 }
             }
         }
-        //public IActionResult Nouveau([FromForm] Recette recette)
-        //{
-        //    pour accéder à l'utilisateur connecté :
-        //    string roleUser = User.FindFirstValue(ClaimTypes.Role);
-        //    string? filePath = null;
-
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-
-        //            throw new Exception("Le modèle est pas valide");
-
-        //        }
-        //        string[] permittedExtensions = { ".jpeg", ".jpg", ".png", ".gif" };
-
-        //        var ext = Path.GetExtension(recette.couvertureFile.FileName).ToLowerInvariant();
-
-        //        if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
-        //        {
-        //            cette ligne permet de mettre le message d'erreur au bon endroit dans la vue (c.a.d à côté du file picker)
-        //            ModelState["recette.couvertureFile"]!.Errors.Add(new ModelError("Ce type de fichier n'est pas accepté."));
-        //            throw new Exception("Ce type de fichier n'est pas accepté.");
-        //        }
-
-        //        string query = "INSERT INTO Recettes (nom, temps_preparation, temps_cuisson, difficulte,photo) VALUES(@nom,@temps_preparation,@temps_cuisson,@difficulte,@photo) RETURNING id;";
-        //        string queryRecetteCategorie = "INSERT INTO categories_recettes(id_recette, id_categorie) VALUES(@id_recette, @id_categorie)";
-        //        gestion de la couverture
-
-        //        if (recette.couvertureFile != null && recette.couvertureFile.Length > 0)
-        //        {
-        //            filePath = Path.Combine("/images/recettes/",
-        //                Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.couvertureFile.FileName)).ToString();
-
-        //            using (var stream = System.IO.File.Create("wwwroot" + filePath))
-        //            {
-        //                recette.couvertureFile.CopyTo(stream);
-        //            }
-        //            recette.photo = filePath;
-        //        }
-
-
-        //        using (var connexion = new NpgsqlConnection(_connexionString))
-        //        {
-        //            connexion.Open();
-        //            using (var transaction = connexion.BeginTransaction())
-        //            {
-        //                insert d'une recette et récupération de son id
-        //                int recette_id = connexion.ExecuteScalar<int>(query, recette);
-        //                if (recette_id == 0)
-        //                {
-        //                    transaction.Rollback();
-        //                    throw new Exception("Erreur pendant la création d'une recette.");
-        //                }
-        //                else
-        //                {
-        //                    ajouter les liens avec les catégories
-        //                    List<object> list = new List<object>();
-        //                    foreach (int id_categorie in recette.categories_ids)
-        //                    {
-        //                        list.Add(new { id_recette = recette_id, id_categorie = id_categorie });
-        //                    }
-
-
-        //                    int res = connexion.Execute(queryRecetteCategorie, list);
-        //                    if (res != recette.categories_ids.Count)
-        //                    {
-        //                        transaction.Rollback();
-        //                        throw new Exception("Erreur pendant l'ajout des catégories");
-        //                    }
-        //                    transaction.Commit();
-        //                }
-        //            }
-        //        }
-        //    }
-
-
+      
 
         catch (Exception e)
         {
@@ -280,26 +205,55 @@ public class RecettesController : Controller
 
         viewModel.categories = ConstruireListeCategories();
 
-        string queryLivre = "SELECT * FROM Recettes WHERE recettes.id=@identifiant";
-        string queryCategories = "SELECT categorie_id FROM recette_categorie WHERE recette_id=@identifiant";
+        string queryRecette = "SELECT * FROM Recettes WHERE recettes.id=@identifiant";
+        string queryCategories = "SELECT id_categorie FROM categories_recettes WHERE id_recette=@identifiant";
 
         using (var connexion = new NpgsqlConnection(_connexionString))
         {
             try
             {
-                viewModel.recette = connexion.QueryFirst<Recette>(queryLivre, new { identifiant = id });
+                viewModel.recette = connexion.QueryFirst<Recette>(queryRecette, new { identifiant = id });
                 viewModel.recette.categories_ids = connexion.Query<int>(queryCategories, new { identifiant = id }).ToList();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return NotFound();
             }
         }
         ViewData["TitrePage"] = "Modification recette";
         ViewData["ActionFormulaire"] = "Modifier";
-        // retourne la vue spécifiée (qui est dans le dossier Livres)
+        // retourne la vue spécifiée (qui est dans le dossier recettes)
         return View("EditeurRecette", viewModel);
     }
+    //[Authorize(Roles = "admin")]
+   //[HttpGet]
+   // public IActionResult Modifier(int id)
+   // {
+
+   //     EditeurRecetteViewModel viewModel = new EditeurRecetteViewModel();
+
+   //     viewModel.categories = ConstruireListeCategories();
+
+   //     string queryRecette = "SELECT * FROM Recettes WHERE recettes.id=@identifiant";
+   //     string queryCategories = "SELECT categorie_id FROM recette_categorie WHERE recette_id=@identifiant";
+
+   //     using (var connexion = new NpgsqlConnection(_connexionString))
+   //     {
+   //         try
+   //         {
+   //             viewModel.recette = connexion.QueryFirst<Recette>(queryRecette, new { identifiant = id });
+   //             viewModel.recette.categories_ids = connexion.Query<int>(queryCategories, new { identifiant = id }).ToList();
+   //         }
+   //         catch (Exception e)
+   //         {
+   //             return NotFound();
+   //         }
+   //     }
+   //     ViewData["TitrePage"] = "Modification recette";
+   //     ViewData["ActionFormulaire"] = "Modifier";
+   //     // retourne la vue spécifiée (qui est dans le dossier Recettes)
+   //     return View("EditeurRecette", viewModel);
+   // }
 
     [HttpPost]
     public IActionResult Modifier([FromForm] Recette recette, [FromForm] string supprimerCouverture)
@@ -353,14 +307,14 @@ public class RecettesController : Controller
                     {
                         // mise à jour des catégories
                         // 1 - suppression des catégories
-                        string queryDelete = "DELETE FROM recette_categorie WHERE recette_id=@identifiant";
+                        string queryDelete = "DELETE FROM recette_categorie WHERE id_recette=@identifiant";
                         connexion.Execute(queryDelete, new { identifiant = recette.id });
                         // 2 - insertion des catégories
-                        string queryRecetteCategorie = "INSERT INTO livre_categorie(livre_id,categorie_id) VALUES(@livre_id,@categorie_id)";
+                        string queryRecetteCategorie = "INSERT INTO recette_categorie(id_recette,id_categorie) VALUES(@id_recette,@id_categorie)";
                         List<object> list = new List<object>();
                         foreach (int categorie_id in recette.categories_ids)
                         {
-                            list.Add(new { recette_id = recette.id, categorie_id = categorie_id });
+                            list.Add(new { id_recette = recette.id, id_categorie = categorie_id });
                         }
                         res = connexion.Execute(queryRecetteCategorie, list);
                         if (res != recette.categories_ids.Count)

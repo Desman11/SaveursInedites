@@ -6,6 +6,7 @@ namespace SaveursInedites.Models
     {
         public Recette recette { get; set; }
         public List<SelectListItem> categories { get; set; } = new List<SelectListItem>();
-     
+
     }
 }
+
