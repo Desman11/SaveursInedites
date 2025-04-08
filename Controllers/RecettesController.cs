@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using SaveursInedites.Controllers;
+using System.Collections.Generic;
 
 
 namespace SaveursInedites.Controllers;
@@ -103,6 +104,7 @@ public class RecettesController : Controller
 
         viewModel.categories = ConstruireListeCategories();
 
+        ViewData["ActionFormulaire"] = "Nouveau";
         // retourne la vue spécifiée (qui est dans le dossier Recettes)
         return View("EditeurRecette", viewModel);
     }
@@ -112,6 +114,7 @@ public class RecettesController : Controller
     {
 
         string? filePath = null;
+        string? anciennePhoto = null;
         try
         {
 
@@ -121,31 +124,35 @@ public class RecettesController : Controller
             }
             string[] permittedExtensions = { ".jpeg", ".jpg", ".png", ".gif" };
 
-            var ext = Path.GetExtension(recette.couvertureFile.FileName).ToLowerInvariant();
+            var ext = Path.GetExtension(recette.photoFile.FileName).ToLowerInvariant();
 
             if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
             {
 
-                ModelState["recette.couvertureFile"]!.Errors.Add(new ModelError("Ce type de fichier n'est pas accepté."));
+                ModelState["recette.photoFile"]!.Errors.Add(new ModelError("Ce type de fichier n'est pas accepté."));
                 throw new Exception("Ce type de fichier n'est pas accepté.");
             }
 
 
             string query = "INSERT INTO Recettes (nom, temps_preparation, temps_cuisson, difficulte,photo) VALUES(@nom,@temps_preparation,@temps_cuisson,@difficulte,@photo) RETURNING id;";
             string queryRecetteCategorie = "INSERT INTO categories_recettes(id_categorie,id_recette) VALUES(@id_categorie,@id_recette)";
-            //gestion de la couverture
+
+            //gestion de la photo
 
 
-            if (recette.couvertureFile != null && recette.couvertureFile.Length > 0)
+
+            if (recette.photoFile != null && recette.photoFile.Length > 0)
             {
                 filePath = Path.Combine("/images/recettes/",
-                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.couvertureFile.FileName)).ToString();
+                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.photoFile.FileName)).ToString();
 
                 using (var stream = System.IO.File.Create("wwwroot" + filePath))
                 {
-                    recette.couvertureFile.CopyTo(stream);
+                    recette.photoFile.CopyTo(stream);
                 }
-                recette.couverture = filePath;
+                // récupération du lien de l'ancienne photo
+                anciennePhoto = recette.photo;
+                recette.photo = filePath;
             }
 
             using (var connexion = new NpgsqlConnection(_connexionString))
@@ -157,6 +164,11 @@ public class RecettesController : Controller
                     int recette_id = connexion.ExecuteScalar<int>(query, recette);
                     if (recette_id == 0)
                     {
+                        if (anciennePhoto != null)
+                        {
+                            System.IO.File.Delete("wwwroot" + recette.photo);
+                        }
+
                         transaction.Rollback();
                         throw new Exception("Erreur pendant la création de la recette.");
                     }
@@ -171,15 +183,23 @@ public class RecettesController : Controller
                         int res = connexion.Execute(queryRecetteCategorie, list);
                         if (res != recette.categories_ids.Count)
                         {
+                            if (anciennePhoto != null)
+                            {
+                                System.IO.File.Delete("wwwroot" + recette.photo);
+                            }
                             transaction.Rollback();
                             throw new Exception("Erreur pendant l'ajout des catégories");
                         }
                         transaction.Commit();
+                        if (anciennePhoto != null)
+                        {
+                            System.IO.File.Delete("wwwroot" + anciennePhoto);
+                        }
                     }
                 }
             }
         }
-      
+
 
         catch (Exception e)
         {
@@ -196,7 +216,7 @@ public class RecettesController : Controller
         TempData["ValidateMessage"] = "La recette a bien été créé";
         return RedirectToAction("Index");
     }
-
+    //[Authorize(Roles = "admin")]
     [HttpGet]
     public IActionResult Modifier(int id)
     {
@@ -207,6 +227,7 @@ public class RecettesController : Controller
 
         string queryRecette = "SELECT * FROM Recettes WHERE recettes.id=@identifiant";
         string queryCategories = "SELECT id_categorie FROM categories_recettes WHERE id_recette=@identifiant";
+
 
         using (var connexion = new NpgsqlConnection(_connexionString))
         {
@@ -220,43 +241,26 @@ public class RecettesController : Controller
                 return NotFound();
             }
         }
-        ViewData["TitrePage"] = "Modification recette";
+        
         ViewData["ActionFormulaire"] = "Modifier";
         // retourne la vue spécifiée (qui est dans le dossier recettes)
+        if (viewModel.recette.photo != null)
+        {
+            ViewData["AfficherPhoto"] = true;
+        }
+        else
+        {
+            ViewData["AfficherPhoto"] = false;
+        }
+
         return View("EditeurRecette", viewModel);
+
     }
-    //[Authorize(Roles = "admin")]
-   //[HttpGet]
-   // public IActionResult Modifier(int id)
-   // {
-
-   //     EditeurRecetteViewModel viewModel = new EditeurRecetteViewModel();
-
-   //     viewModel.categories = ConstruireListeCategories();
-
-   //     string queryRecette = "SELECT * FROM Recettes WHERE recettes.id=@identifiant";
-   //     string queryCategories = "SELECT categorie_id FROM recette_categorie WHERE recette_id=@identifiant";
-
-   //     using (var connexion = new NpgsqlConnection(_connexionString))
-   //     {
-   //         try
-   //         {
-   //             viewModel.recette = connexion.QueryFirst<Recette>(queryRecette, new { identifiant = id });
-   //             viewModel.recette.categories_ids = connexion.Query<int>(queryCategories, new { identifiant = id }).ToList();
-   //         }
-   //         catch (Exception e)
-   //         {
-   //             return NotFound();
-   //         }
-   //     }
-   //     ViewData["TitrePage"] = "Modification recette";
-   //     ViewData["ActionFormulaire"] = "Modifier";
-   //     // retourne la vue spécifiée (qui est dans le dossier Recettes)
-   //     return View("EditeurRecette", viewModel);
-   // }
 
     [HttpPost]
-    public IActionResult Modifier([FromForm] Recette recette, [FromForm] string supprimerCouverture)
+    //[EstCreateurAuthorize]
+    // [Authorize(Roles = "admin")]
+    public IActionResult Modifier([FromForm] Recette recette, [FromForm] string supprimerPhoto)
     {
         try
         {
@@ -265,26 +269,28 @@ public class RecettesController : Controller
                 throw new Exception("Le modèle est pas valide");
             }
 
-            // gestion de la couverture
+            // gestion de la photo
             string? filePath = null;
-            string? ancienneCouverture = null;
-            if (recette.couvertureFile != null && recette.couvertureFile.Length > 0)
+            string? anciennePhoto = null;
+            if (recette.photoFile != null && recette.photoFile.Length > 0)
             {
                 filePath = Path.Combine("/images/recettes/",
-                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.couvertureFile.FileName)).ToString();
+                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.photoFile.FileName)).ToString();
 
                 using (var stream = System.IO.File.Create("wwwroot" + filePath))
                 {
-                    recette.couvertureFile.CopyTo(stream);
+                    recette.photoFile.CopyTo(stream);
                 }
 
-                // récupération du lien de l'ancienne couverture
-                ancienneCouverture = recette.couverture;
-                // assignation de la nouvelle couverture
-                recette.couverture = filePath;
+                // récupération du lien de l'ancienne photo
+                anciennePhoto = recette.photo;
+                // assignation de la nouvelle photo
+                recette.photo = filePath;
             }
 
-            string query = "UPDATE recettes SET nom=@nom, temps_preparation=@temps_preparation, temps_cuisson=@temps_cuisson, difficulte=@difficulte, photo=@photo, createur=@createur WHERE id=@id;";
+            string query = "UPDATE recettes SET nom=@nom, temps_preparation=@temps_preparation, temps_cuisson=@temps_cuisson, difficulte=@difficulte, photo=@photo  WHERE id=@id";
+
+       
 
 
             using (var connexion = new NpgsqlConnection(_connexionString))
@@ -296,40 +302,45 @@ public class RecettesController : Controller
                     int res = connexion.Execute(query, recette);
                     if (res != 1)
                     {
-                        if (ancienneCouverture != null)
+                        if (anciennePhoto != null)
                         {
-                            System.IO.File.Delete("wwwroot" + recette.couverture);
+                            System.IO.File.Delete("wwwroot" + recette.photo);
                         }
                         transaction.Rollback();
-                        throw new Exception("Erreur pendant la mise à jour de la recette");
+                        throw new Exception("Erreur pendant la mise à jour de al recette");
                     }
                     else
                     {
                         // mise à jour des catégories
                         // 1 - suppression des catégories
-                        string queryDelete = "DELETE FROM recette_categorie WHERE id_recette=@identifiant";
+                        string queryDelete = "DELETE FROM categories_recettes WHERE id_recette=@identifiant";
                         connexion.Execute(queryDelete, new { identifiant = recette.id });
                         // 2 - insertion des catégories
-                        string queryRecetteCategorie = "INSERT INTO recette_categorie(id_recette,id_categorie) VALUES(@id_recette,@id_categorie)";
+                        string queryRecetteCategorie = "INSERT INTO categories_recettes(id_categorie, id_recette) VALUES(@id_categorie, @id_recette)";
+
+                       
                         List<object> list = new List<object>();
                         foreach (int categorie_id in recette.categories_ids)
                         {
                             list.Add(new { id_recette = recette.id, id_categorie = categorie_id });
                         }
                         res = connexion.Execute(queryRecetteCategorie, list);
+
+
+
                         if (res != recette.categories_ids.Count)
                         {
-                            if (ancienneCouverture != null)
+                            if (anciennePhoto != null)
                             {
-                                System.IO.File.Delete("wwwroot" + recette.couverture);
+                                System.IO.File.Delete("wwwroot" + recette.photo);
                             }
                             transaction.Rollback();
                             throw new Exception("Erreur pendant l'ajout des catégories");
                         }
                         transaction.Commit();
-                        if (ancienneCouverture != null)
+                        if (anciennePhoto != null)
                         {
-                            System.IO.File.Delete("wwwroot" + ancienneCouverture);
+                            System.IO.File.Delete("wwwroot" + anciennePhoto);
                         }
                     }
 
@@ -346,15 +357,37 @@ public class RecettesController : Controller
 
 
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+
+    public IActionResult Supprimer([FromForm] int idRecette)
+    {
+        string query = "DELETE FROM recettes WHERE id=@id";
+
+        try
+        {
+            using (var connexion = new NpgsqlConnection(_connexionString))
+            {
+                int res = connexion.Execute(query, new { id = idRecette });
+                if (res == 1)
+                {
+                    TempData["ValidateMessage"] = "Le recette a bien été supprimé";
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            TempData["ValidateMessage"] = "Erreur, la recette n'a pas pu être supprimé.";
+
+        }
+        return RedirectToAction("Index");
+    }
+
 }
-
-
-
-
-
-
-
-
-
 
 

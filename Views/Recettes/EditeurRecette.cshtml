@@ -1,13 +1,6 @@
 ﻿@model EditeurRecetteViewModel
 
-<h1>Nouvelle Recette :</h1>
-
-<form asp-controller="Recettes" asp-action="Nouveau" method="post" enctype="multipart/form-data">
-    @if (@ViewData["ActionFormulaire"] == "Modifier")
-    {
-        <input type="hidden" asp-for="@Model.recette.id">
-    }
-
+<form asp-controller="Recettes" asp-action="@ViewData["ActionFormulaire"]" method="post" enctype="multipart/form-data">
     <table>
         <tr>
             <td><label asp-for="@Model.recette.nom"></label></td>
@@ -35,23 +28,29 @@
             <td><span asp-validation-for="@Model.recette.categories_ids" class="text-danger"></span></td>
         </tr>
         <tr>
-            <td><label asp-for="recette.couvertureFile">Image actuelle</label></td>
-            <td>
-                @if (@Model.recette is not null)
-                {
-                    @if (!string.IsNullOrEmpty(Model.recette.couverture))
-                    {
-                        <img src="@Model.recette.couverture" alt="Image de la recette" style="max-width: 200px; height: auto;" />
-                    }
-                }
-            </td>
+            <td><label asp-for="@Model.recette.photoFile"></label></td>
+            <td><input type="file" asp-for="@Model.recette.photoFile"></td>
+            <td><span asp-validation-for="@Model.recette.photoFile" class="text-danger"></span></td>
         </tr>
-        <tr>
-            <td><label asp-for="recette.couvertureFile">Changer l'image</label></td>
-            <td><input asp-for="recette.couvertureFile" type="file" class="form-control" /></td>
-            <td><span asp-validation-for="recette.couvertureFile" class="text-danger"></span></td>
-        </tr>
+
     </table>
+    @if (@ViewData["ActionFormulaire"]!.ToString() == "Modifier")
+    {
+        <input type="hidden" asp-for="@Model.recette.id">
+        @if (@Model.recette.photo != null)
+        {
+            <input type="hidden" asp-for="@Model.recette.photo">
+            <img src="@Model.recette.photo" alt="textalternatif">
+            <div>
+                <input type="checkbox" id="supprimerPhoto" name="supprimerPhoto" />
+                <label for="supprimerPhoto">supprimer photo ?</label>
+            </div>
+        }
+        else
+        {
+            <p>Cette Recette n'a pas de photo.</p>
+        }
+    }
     <input type="submit" value="Envoyer">
 </form>
 
@@ -62,4 +61,5 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}  
+}
+
