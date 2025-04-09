@@ -32,7 +32,7 @@
             <td><input type="file" asp-for="@Model.recette.photoFile"></td>
             <td><span asp-validation-for="@Model.recette.photoFile" class="text-danger"></span></td>
         </tr>
-
+       
     </table>
     @if (@ViewData["ActionFormulaire"]!.ToString() == "Modifier")
     {
@@ -40,7 +40,7 @@
         @if (@Model.recette.photo != null)
         {
             <input type="hidden" asp-for="@Model.recette.photo">
-            <img src="@Model.recette.photo" alt="textalternatif">
+            <img src="@Model.recette.photo" width="250" height="250" alt="textalternatif">
             <div>
                 <input type="checkbox" id="supprimerPhoto" name="supprimerPhoto" />
                 <label for="supprimerPhoto">supprimer photo ?</label>

@@ -60,6 +60,7 @@ namespace SaveursInedites.Controllers
             return View("NouveauUtilisateur");
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         [Authorize(Roles = "admin")]
         public IActionResult Nouveau([FromForm] Utilisateur utilisateur)
         {

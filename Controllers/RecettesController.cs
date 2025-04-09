@@ -110,6 +110,7 @@ public class RecettesController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult Nouveau([FromForm] Recette recette)
     {
 
@@ -258,6 +259,7 @@ public class RecettesController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     //[EstCreateurAuthorize]
     // [Authorize(Roles = "admin")]
     public IActionResult Modifier([FromForm] Recette recette, [FromForm] string supprimerPhoto)
@@ -360,6 +362,7 @@ public class RecettesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "admin")]
 
     public IActionResult Supprimer([FromForm] int idRecette)
     {
@@ -387,7 +390,31 @@ public class RecettesController : Controller
         }
         return RedirectToAction("Index");
     }
+    //public IActionResult Recherche(string categorie)
+    //{
+    //            ViewBag.Categorie = categorie;
+    //    return View();
+    //}
 
+    //[AllowAnonymous]
+    //public IActionResult Recherche()
+    //{
+    //    return View("Recherche");
+    //}
+
+    [AllowAnonymous]
+    public IActionResult Recherche(string recherche)
+    {
+        if (string.IsNullOrWhiteSpace(recherche))
+            return Json(new List<Recette>());
+
+        string query = "SELECT * FROM recettes WHERE nom ILIKE @recherche";
+        List<Recette> recettes;
+        using (var connexion = new NpgsqlConnection(_connexionString))
+        {
+            recettes = connexion.Query<Recette>(query, new { recherche = $"%{recherche}%" }).ToList();
+        }
+        return Json(recettes);
+    }
 }
-
 

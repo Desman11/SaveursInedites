@@ -1,0 +1,41 @@
+﻿<main>
+
+    <div class="main-content">
+        <div class="title_subtitle_holder">
+            <h1>Nos recettes</h1>
+        </div>
+    </div>
+</main>
+    </div>
+
+
+<div id="carousel-area">
+    <div id="carousel"></div>
+    <div class="buttons">
+        <button class="icon-btn" onclick="moveToSelected('prev')">
+            <img src="/icones/gauche.svg" alt="prev" class="icon-img">
+        </button>
+        <button class="icon-btn" onclick="moveToSelected('next')">
+            <img src="/icones/droite.svg" alt="next" class="icon-img">
+        </button>
+    </div>
+</div>
+
+<input type="text" name="recherche" id="recherche">
+<button id="btnrecherche" type="button" onclick="recherche()">Rechercher</button>
+
+<a id="back_to_top" href="#" class="on">
+    <span class="circle">
+        <i class="fas fa-arrow-up"></i>
+    </span>
+</a>
+
+
+
+@* <form role="search" method="get" id="searchform" action="" class="">
+    <div class="display-recherche">
+        <input aria-label="Rechercher un ingrédient ou une recette…" type="text" value="" name="s"
+               id="s" placeholder="Entrez un ingrédient ou une recette…">
+        <input type="submit" id="searchsubmit" value="Rechercher">
+    </div>
+</form> *@

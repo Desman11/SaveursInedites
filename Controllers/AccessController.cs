@@ -42,6 +42,7 @@ public class AccessController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public IActionResult SignUp([FromForm] Utilisateur utilisateur)
     {
         string query = "SELECT * FROM Utilisateurs WHERE email = @email";
@@ -82,6 +83,7 @@ public class AccessController : Controller
     }
 
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignIn([FromForm] Utilisateur utilisateur)
     {
         ModelState["identifiant"]!.ValidationState = ModelValidationState.Valid;

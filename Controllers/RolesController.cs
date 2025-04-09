@@ -60,6 +60,7 @@ namespace SaveursInedites.Controllers
             return View("EditeurRole");
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Nouveau([FromForm] Role role)
         {
             if (!ModelState.IsValid)

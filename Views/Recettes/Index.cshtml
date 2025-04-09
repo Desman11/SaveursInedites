@@ -35,9 +35,18 @@
                     <td>
                         <a asp-controller="Recettes" asp-action="Detail" asp-route-id="@recette.id">Détails</a>
                     </td>
-                    <td><a asp-controller="Recettes" asp-action="Modifier" asp-route-id="@recette.id">Modifier</a>
+                    <td>
+                        <a asp-controller="Recettes" asp-action="Modifier" asp-route-id="@recette.id">Modifier</a>
+                    </td>
+                    <td>
+                        <form asp-controller="Recettes" asp-action="Supprimer" method="post">
+                            <input type="hidden" name="idRecette" value="@recette.id">
+                            <button type="button" class="suppressionButton" data-nom="@recette.nom">Supprimer</button>
+                        </form>
+                    </td>
                 </tr>
             }
         </tbody>
+
     </table>
 </div>
