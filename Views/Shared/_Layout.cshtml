@@ -23,15 +23,26 @@
 			<nav class="menu" id="myMenu">
 				<button class="menu-toggle" onclick="toggleMenu()">☰</button>
 				<ul>
-					<li><a href="./accueil.html">Accueil</a></li>
+					@* <li><a href="./accueil.html">Accueil</a></li> *@
 					<li class ="nav-item">
 						<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-					<li><a href="./recherche.html">Recherche</a></li>
+					
+					<li class="nav-item">
+					<a asp-area="" asp-controller="Recettes" asp-action="PageRecherche">Recherche</a>
 
+					<li class="nav-item">
+						<a asp-area="" asp-controller="Recettes" asp-action="Index">Detail</a>
 
-					<li><a href="./recettes.html">Recettes</a></li>
+					<li class="nav-item">
+						<a asp-area="" asp-controller="Recettes" asp-action="nouveau">Ajout</a>
 
-					<li><a href="./mesrecettes.html">Mes Recettes</a></li>
+					<li class="nav-item">
+						<a asp-area="" asp-controller="Recettes" asp-action="modifier">Modifier</a>
+
+					<li class="nav-item">
+						<a asp-area="" asp-controller="Utilisateurs" asp-action="Index">Administration</a>
+
+					
 					@*<li class="dropdown compte">
 						<a href="#" class="dropbtn" onclick="toggleDropdown(event, 'compteDropdown')">
 							<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
@@ -107,9 +118,33 @@
 
 				<nav class="menubas">
 					<ul>
-						<li><a href="./accueil.html">Accueil</a></li>
+						<li class="nav-item">
+							<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+						<li class="nav-item">
+							<a asp-area="" asp-controller="Recettes" asp-action="PageRecherche">Recherche</a>
+
+						<li class="nav-item">
+							<a asp-area="" asp-controller="Recettes" asp-action="Index">Detail</a>
+
+						<li class="nav-item">
+							<a asp-area="" asp-controller="Recettes" asp-action="nouveau">Ajout</a>
+
+						<li class="nav-item">
+							<a asp-area="" asp-controller="Recettes" asp-action="modifier">Modifier</a>
+
+						<li class="nav-item">
+							<a asp-area="" asp-controller="Utilisateurs" asp-action="Index">Administration</a>
+
+
+
+
+						@* <li><a href="./accueil.html">Accueil</a></li>
 						<li><a href="./recettes.html">Recettes</a></li>
-						<li><a href="./mesrecettes.html">Mes recettes</a></li>
+						<li><a href="./mesrecettes.html">Mes recettes</a></li> *@
+
+
+
+
 						<li class="dropdown compte">
 							<a href="#" class="dropbtn" onclick="toggleDropdown(event, 'compteDropdown')">
 								<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
@@ -124,10 +159,12 @@
 						</li>
 					</ul>
 				</nav>
-				<a href="contact.html" class="contact-button">Contact</a>
+				@* <a href="contact.html" class="contact-button">Contact</a> *@
+		<li class="contact-button">
+			<a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
 			</div>
 			<div class="footer-copyright">
-				&copy; 2025 Tous droits réservés. / <a href="#">Mentions Légales</a>
+				&copy; 2025 Tous droits réservés. / <a href="/Home/Privacy">Mentions Légales</a>
 			</div>
 		</footer>
 		<script src="~/lib/jquery/dist/jquery.min.js"></script>

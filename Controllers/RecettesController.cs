@@ -390,17 +390,17 @@ public class RecettesController : Controller
         }
         return RedirectToAction("Index");
     }
-    //public IActionResult Recherche(string categorie)
+    //public IActionResult Recherche2(string categorie)
     //{
-    //            ViewBag.Categorie = categorie;
+    //    ViewBag.Categorie = categorie;
     //    return View();
     //}
 
-    //[AllowAnonymous]
-    //public IActionResult Recherche()
-    //{
-    //    return View("Recherche");
-    //}
+    [AllowAnonymous]
+    public IActionResult PageRecherche()
+    {
+        return View("Recherche");
+    }
 
     [AllowAnonymous]
     public IActionResult Recherche(string recherche)
@@ -408,11 +408,11 @@ public class RecettesController : Controller
         if (string.IsNullOrWhiteSpace(recherche))
             return Json(new List<Recette>());
 
-        string query = "SELECT * FROM recettes WHERE nom ILIKE @recherche";
+        string query = "SELECT * FROM Recettes WHERE lower(nom) LIKE @recherche";
         List<Recette> recettes;
         using (var connexion = new NpgsqlConnection(_connexionString))
         {
-            recettes = connexion.Query<Recette>(query, new { recherche = $"%{recherche}%" }).ToList();
+            recettes = connexion.Query<Recette>(query, new { recherche = $"%{recherche.ToLower()}%" }).ToList();
         }
         return Json(recettes);
     }
