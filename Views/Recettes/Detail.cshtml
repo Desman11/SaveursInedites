@@ -1,6 +1,7 @@
-﻿@model Recette
+﻿@* @model Recette *@
+@* @model RecetteAvisViewModel *@
 
-<div class="main-content">
+@* <div class="main-content">
     <div class="title_subtitle_holder">
         <h1></h1>
     </div>
@@ -65,5 +66,147 @@
             }
         </div>
  
-    </div>
+    </div> *@
 
+@model RecetteAvisViewModel
+
+@* <div class="main-content">
+    <div class="title_subtitle_holder">
+        <h1>@Model.Recette.nom</h1>
+    </div>
+</div> *@
+
+<div class="aperitif-container">
+    <div class="aperitif">
+       @*  <h1 class="titleaperitit">@Model.Recette.nom</h1> *@
+        <div class="line-separator"></div>
+
+        <div class="card-categorie-image">
+            <img src="@Model.Recette.photo" width="250" height="250" />
+        </div>
+
+        <div class="line-separator"></div>
+
+        <ul class="info">
+            <li>Préparation : @Model.Recette.temps_preparation</li>
+            <li>Cuisson : @Model.Recette.temps_cuisson</li>
+            <li>Difficulté : @Model.Recette.difficulte</li>
+        </ul>
+
+        <span>Ingrédients :</span>
+        @if (Model.Recette.Ingredients != null && Model.Recette.Ingredients.Any())
+        {
+            <ol class="no-number">
+                @foreach (var ingredient in Model.Recette.Ingredients)
+                {
+                    <li>@ingredient.Nom</li>
+                }
+            </ol>
+        }
+        else
+        {
+            <p>Aucun ingrédient disponible.</p>
+        }
+
+        <div class="etapeaperitif"></div>
+        <span>Étapes :</span>
+        @if (Model.Recette.Etapes != null && Model.Recette.Etapes.Any())
+        {
+            <ol class="no-number">
+                @foreach (var etape in Model.Recette.Etapes)
+                {
+                    <li>@etape.texte</li>
+                }
+            </ol>
+        }
+        else
+        {
+            <p>Aucune étape disponible.</p>
+        }
+        <div class="avis-section">
+            <h3>Notes des utilisateurs</h3>
+
+            <p>Moyenne des notes : <strong>@ViewData["Moyenne"] / 5</strong></p>
+
+            @if (Model.AvisExistants is List<AvisViewModel> avisList && Model.AvisExistants.Count > 0)
+            {
+                <ul>
+                    @foreach (var avis in avisList)
+                    {
+                        <li>
+                            <strong>Note :</strong> @avis.Note / 5<br />
+                            <strong>Commentaire :</strong> @avis.Commentaire
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Aucune note pour cette recette pour le moment.</p>
+            }
+        </div>
+        <hr />
+
+        <h2>Commentaire</h2>
+
+        <form asp-controller="Recettes" asp-action="AjouterAvis" method="post">
+
+            <input type="hidden" asp-for="NouvelAvis.id_recette" />
+
+          @*   <div class="rating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    <input type="radio" id="star@i" name="NouvelAvis.Note" value="@i" />
+                    <label for="star@i">★</label>
+                }
+                <span asp-validation-for="NouvelAvis.Note" class="text-danger"></span>
+            </div> *@
+            <div>
+                <label for="Note">Note (sur 5)</label>
+                <input type="number" asp-for="NouvelAvis.Note" min="1" max="5" required />
+            </div>
+            <div>
+                <textarea asp-for="NouvelAvis.Commentaire" rows="4" cols="50" placeholder="Laissez votre commentaire ici..."></textarea>
+                <span asp-validation-for="NouvelAvis.Commentaire" class="text-danger"></span>
+            </div>
+
+            <button type="submit">Envoyer le comentaire</button>
+        </form>
+       
+
+
+       
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+@* <div>
+                <label for="Commentaire">Commentaire</label>
+                <textarea asp-for="NouvelAvis.Commentaire" required></textarea>
+            </div>
+
+            <input type="submit" value="Envoyer" /> *@
+
+@*  <h2>Avis existants :</h2>
+        @foreach (var avis in Model.AvisExistants)
+        {
+            <div>
+                <p>Note : @avis.Note</p>
+                <p>@avis.Commentaire</p>
+            </div>
+        }
+        @if (ViewData["Message"] != null)
+        {
+            <p>@ViewData["Message"]</p>
+        } *@
+
+@* 
+        <form asp-controller="Avis" asp-action="AjouterAvis" method="post">
+            <input type="hidden" asp-for="NouvelAvis.id_recette" value="@Model.Recette" />
+
+
+
+
+        </form> *@

@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace SaveursInedites.Controllers;
 
-//[Authorize]
+[Authorize]
 public class RecettesController : Controller
 {
     private readonly string _connexionString;
@@ -28,7 +28,7 @@ public class RecettesController : Controller
             throw new Exception("Error : Connexion string not found ! ");
         }
     }
-
+    [Authorize]
     public IActionResult Index()
     {
         string query = "SELECT * FROM Recettes";
@@ -40,12 +40,14 @@ public class RecettesController : Controller
         return View(recettes);
     }
 
-
+    [Authorize]
     public IActionResult Detail(int id)
     {
-        string query = "SELECT * FROM recettes WHERE id = @id";
+        string queryRecette = "SELECT * FROM recettes WHERE id = @id";
         string queryEtapes = "SELECT numero, texte FROM etapes WHERE id_recette = @id ORDER BY numero";
-        string queryIngredients = "SELECT * FROM recettes WHERE id = @id; SELECT i.* FROM ingredients i JOIN ingredients_recettes ir ON i.id = ir.id_ingredient WHERE ir.id_recette = @id; ";
+        string queryIngredients = "SELECT i.* FROM ingredients i JOIN ingredients_recettes ir ON i.id = ir.id_ingredient WHERE ir.id_recette = @id";
+        string queryAvis = "SELECT note, commentaire FROM avis WHERE id_recette = @id";
+        string queryMoyenne = "SELECT AVG(note) FROM avis WHERE id_recette = @id";
 
         Recette recette;
 
@@ -55,19 +57,36 @@ public class RecettesController : Controller
             {
                 connexion.Open();
 
-                recette = connexion.QuerySingleOrDefault<Recette>(query, new { id });
-
+                // Récupération de la recette principale
+                recette = connexion.QuerySingleOrDefault<Recette>(queryRecette, new { id });
                 if (recette == null)
-                {
                     return NotFound();
-                }
 
+                // Étapes
                 recette.Etapes = connexion.Query<Etape>(queryEtapes, new { id }).ToList();
-                using (var multi = connexion.QueryMultiple(queryIngredients, new { id }))
+
+                // Ingrédients
+                recette.Ingredients = connexion.Query<Ingredient>(queryIngredients, new { id }).ToList();
+
+                // Avis
+                var avisListe = connexion.Query<AvisViewModel>(queryAvis, new { id }).ToList();
+
+                // Moyenne
+                double? moyenne = connexion.ExecuteScalar<double?>(queryMoyenne, new { id });
+
+
+                // Création du ViewModel complet
+                var model = new RecetteAvisViewModel
                 {
-                    recette = multi.Read<Recette>().SingleOrDefault();
-                    recette.Ingredients = multi.Read<Ingredient>().ToList();
-                }
+                    Recette = recette,
+                    NouvelAvis = new AvisViewModel { id_recette = id },
+                    AvisExistants = avisListe,
+                    MoyenneNote = moyenne ?? 0
+                };
+
+                ViewData["titrePage"] = recette.nom;
+                ViewData["Moyenne"] = moyenne;
+                return View(model);
             }
             catch (Exception ex)
             {
@@ -75,10 +94,90 @@ public class RecettesController : Controller
                 return StatusCode(500, "Erreur interne du serveur");
             }
         }
-
-        ViewData["titrePage"] = recette.nom;
-        return View(recette);
     }
+
+    //public IActionResult Detail(int id)
+    //{
+    //    string query = "SELECT * FROM recettes WHERE id = @id";
+    //    string queryEtapes = "SELECT numero, texte FROM etapes WHERE id_recette = @id ORDER BY numero";
+    //    string queryIngredients = "SELECT * FROM recettes WHERE id = @id; SELECT i.* FROM ingredients i JOIN ingredients_recettes ir ON i.id = ir.id_ingredient WHERE ir.id_recette = @id; ";
+    //    string queryAvis = "SELECT note, commentaire FROM avis WHERE id_recette = @id";
+    //    string queryMoyenne = "SELECT AVG(note) FROM avis WHERE id_recette = @id";
+    //    Recette recette;
+
+    //    using (var connexion = new NpgsqlConnection(_connexionString))
+    //    {
+    //        try
+    //        {
+    //            connexion.Open();
+
+    //            recette = connexion.QuerySingleOrDefault<Recette>(query, new { id });
+
+    //            if (recette == null)
+    //            {
+    //                return NotFound();
+    //            }
+
+    //            recette.Etapes = connexion.Query<Etape>(queryEtapes, new { id }).ToList();
+    //            using (var multi = connexion.QueryMultiple(queryIngredients, new { id }))
+    //            {
+    //                recette = multi.Read<Recette>().SingleOrDefault();
+    //                recette.Ingredients = multi.Read<Ingredient>().ToList();
+    //            }
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            Console.WriteLine($"Erreur lors de la récupération des détails de la recette : {ex.Message}");
+    //            return StatusCode(500, "Erreur interne du serveur");
+    //        }
+    //    }
+
+    //    //ViewData["titrePage"] = recette.nom;
+    //    //return View(recette);
+    //    var model = new RecetteAvisViewModel
+    //    {
+    //        Recette = recette,
+    //        NouvelAvis = new AvisViewModel { RecetteId = id }
+    //    };
+
+    //    ViewData["titrePage"] = recette.nom;
+    //    return View(model);
+    //}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult AjouterAvis([FromForm] RecetteAvisViewModel model)
+    {
+        var avis = model.NouvelAvis;
+
+
+        ModelState["Recette"].ValidationState = ModelValidationState.Skipped;
+        ModelState["AvisExistants"].ValidationState = ModelValidationState.Skipped;
+
+        if (!ModelState.IsValid || avis.Note < 1 || avis.Note > 5 )
+        {
+            TempData["Message"] = "Veuillez remplir tous les champs correctement.";
+            return RedirectToAction("Detail", "Recettes", new { id = avis.id_recette });
+        }
+
+        using (var connexion = new NpgsqlConnection(_connexionString))
+        {
+            string query = "INSERT INTO Avis (id_recette,id_utilisateur, note, commentaire) VALUES (@id_recette,@id_utilisateur, @note, @commentaire)";
+            connexion.Execute(query, new
+            {
+                id_recette = avis.id_recette,
+                id_utilisateur = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                note = avis.Note,
+                commentaire = avis.Commentaire
+
+            });
+        }
+
+        TempData["Message"] = "Merci pour votre avis !";
+        return RedirectToAction("Detail", "Recettes", new { id = avis.id_recette });
+    }
+
+
+
     private List<SelectListItem> ConstruireListeCategories()
     {
         // récupération de toutes les catégories
@@ -396,13 +495,13 @@ public class RecettesController : Controller
     //    return View();
     //}
 
-    [AllowAnonymous]
+    [Authorize]
     public IActionResult PageRecherche()
     {
         return View("Recherche");
     }
 
-    [AllowAnonymous]
+    [Authorize]
     public IActionResult Recherche(string recherche)
     {
         if (string.IsNullOrWhiteSpace(recherche))

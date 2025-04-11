@@ -14,7 +14,7 @@
                 <th>ID</th>
                 <th>Identifiant</th>
                 <th>Email</th>
-                <th>Password</th>
+                @* <th>Password</th> *@
             </tr>
         </thead>
 
@@ -25,8 +25,20 @@
                     <td>@(utilisateur.Id)</td>
                     <td>@(utilisateur.identifiant)</td>
                     <td>@(utilisateur.email)</td>
-                    <td>@(utilisateur.password)</td>
+                    @* <td>@(utilisateur.password)</td> *@
                     <td><a asp-controller="Utilisateurs" asp-action="Detail" asp-route-id=@(utilisateur.Id)>Detail</a></td>
+                
+            <td>
+                <a asp-controller="Utilisateurs" asp-action="Modifier" asp-route-id="@utilisateur.Id">Modifier</a>
+            </td>
+            <td>
+                <form asp-controller="Utilisateurs" asp-action="Supprimer" method="post">
+                    <input type="hidden" name="idUtilisateur" value="@utilisateur.Id">
+                    <button type="button" class="suppressionButtonU" data-nom="@utilisateur.identifiant">Supprimer</button>
+                </form>
+            </td>
+
+
                 </tr>
             }
         </tbody>

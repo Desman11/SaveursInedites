@@ -112,11 +112,17 @@ if (suppressionButtons.length > 0) {
         })
     });
 }
-
+let barreRecherche = document.getElementById("recherche")
 // Événement pour l'affichage en temps réel à chaque frappe
-document.getElementById("recherche").addEventListener("input", () => {
-    recherche(); // Affiche les résultats à chaque frappe
-});
+if (barreRecherche != null) {
+    barreRecherche.addEventListener("input", () => {
+        recherche(); // Affiche les résultats à chaque frappe
+    });
+}
+//// Événement pour l'affichage en temps réel à chaque frappe
+//document.getElementById("recherche").addEventListener("input", () => {
+//    recherche(); // Affiche les résultats à chaque frappe
+//});
 
 //// Événement pour déclencher la recherche en appuyant sur Entrée
 //document.getElementById("recherche").addEventListener("keydown", (event) => {
@@ -166,4 +172,20 @@ function recherche() {
         document.getElementById("recettes").appendChild(lien);
     }
    
+}
+// partie suppression
+let suppressionButtonsU = document.getElementsByClassName("suppressionButtonU");
+if (suppressionButtonsU.length > 0) {
+
+    Array.from(suppressionButtonsU).forEach(button => {
+        button.addEventListener("click", (e) => {
+
+            let utilisateurName = e.target.parentElement.parentElement.parentElement.children[1].textContent;
+            let rep = confirm("Voulez vous vraiment supprimer l'utilisateur suivant :\n" + utilisateurIdentifiant);
+            if (rep) {
+                let form = e.target.parentElement;
+                form.submit();
+            }
+        })
+    });
 }

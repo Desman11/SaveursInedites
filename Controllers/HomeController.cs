@@ -4,11 +4,13 @@ using System.Linq;
 using System.Diagnostics;
 using Npgsql;
 using Dapper;
+using Microsoft.AspNetCore.Authorization;
 
 
 
 namespace SaveursInedites.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

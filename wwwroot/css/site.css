@@ -976,3 +976,22 @@ textarea {
     margin: 0;
     color: #555;
 }
+
+
+
+/*AVIS*/
+.rating input[type="radio"] {
+    display: none;
+}
+
+.rating label {
+    font-size: 2rem;
+    color: #ccc;
+    cursor: pointer;
+}
+
+    .rating input:checked ~ label,
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: gold;
+    }
