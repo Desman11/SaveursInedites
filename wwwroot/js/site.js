@@ -1,61 +1,61 @@
 ﻿
-    //const images = [
-    //    { src: "/images/categorie/aperitif.png", alt: "Apéritif", link: "aperitif" },
-    //    { src: "/images/categorie/soupe.webp", alt: "Soupe", link: "soupe" },
-    //    { src: "/images/categorie/entrees.png", alt: "Entrées", link: "entrees" },
-    //    { src: "/images/categorie/plats.png", alt: "Plats", link: "plats" },
-    //    { src: "/images/categorie/desserts.png", alt: "Desserts", link: "desserts" },
-    //];
+//const images = [
+//    { src: "/images/categorie/aperitif.png", alt: "Apéritif", link: "aperitif" },
+//    { src: "/images/categorie/soupe.webp", alt: "Soupe", link: "soupe" },
+//    { src: "/images/categorie/entrees.png", alt: "Entrées", link: "entrees" },
+//    { src: "/images/categorie/plats.png", alt: "Plats", link: "plats" },
+//    { src: "/images/categorie/desserts.png", alt: "Desserts", link: "desserts" },
+//];
 
-    //let selectedIndex = 3;
-    //let slideElements = [];
+//let selectedIndex = 3;
+//let slideElements = [];
 
-    //function getClassName(index) {
-    //    const relativeIndex = (index - selectedIndex + images.length) % images.length;
-    //if (relativeIndex === 0) return "selected";
-    //if (relativeIndex === 1) return "next";
-    //if (relativeIndex === 2) return "nextRightSecond";
-    //if (relativeIndex === images.length - 1) return "prev";
-    //if (relativeIndex === images.length - 2) return "prevLeftSecond";
-    //    return relativeIndex > 2 ? "hideRight" : "hideLeft";
-    //}
+//function getClassName(index) {
+//    const relativeIndex = (index - selectedIndex + images.length) % images.length;
+//if (relativeIndex === 0) return "selected";
+//if (relativeIndex === 1) return "next";
+//if (relativeIndex === 2) return "nextRightSecond";
+//if (relativeIndex === images.length - 1) return "prev";
+//if (relativeIndex === images.length - 2) return "prevLeftSecond";
+//    return relativeIndex > 2 ? "hideRight" : "hideLeft";
+//}
 
-    //function createCarousel() {
-    //    const carousel = document.getElementById('carousel');
-    //carousel.innerHTML = '';
-    //slideElements = []; // Réinitialise au cas où
+//function createCarousel() {
+//    const carousel = document.getElementById('carousel');
+//carousel.innerHTML = '';
+//slideElements = []; // Réinitialise au cas où
 
-    //    images.forEach((image, index) => {
-    //        const div = document.createElement('div');
-    //div.className = getClassName(index);
+//    images.forEach((image, index) => {
+//        const div = document.createElement('div');
+//div.className = getClassName(index);
 
-    //div.innerHTML = `
-    //<div class="img-wrap">
-    //    <a href="/Recette/Recherche?categorie=${encodeURIComponent(image.link)}">
-    //        <span class="img-text">${image.alt}</span>
-    //        <img src="${image.src}" alt="${image.alt}">
-    //    </a>
-    //</div>`;
+//div.innerHTML = `
+//<div class="img-wrap">
+//    <a href="/Recette/Recherche?categorie=${encodeURIComponent(image.link)}">
+//        <span class="img-text">${image.alt}</span>
+//        <img src="${image.src}" alt="${image.alt}">
+//    </a>
+//</div>`;
 
-    //        carousel.appendChild(div);
-    //        slideElements.push(div);
-    //    });
-    //}
+//        carousel.appendChild(div);
+//        slideElements.push(div);
+//    });
+//}
 
-    //function moveToSelected(direction) {
-    //    if (direction === "next") {
-    //        selectedIndex = (selectedIndex + 1) % images.length;
-    //    } else if (direction === "prev") {
-    //        selectedIndex = selectedIndex === 0 ? images.length - 1 : selectedIndex - 1;
-    //    }
+//function moveToSelected(direction) {
+//    if (direction === "next") {
+//        selectedIndex = (selectedIndex + 1) % images.length;
+//    } else if (direction === "prev") {
+//        selectedIndex = selectedIndex === 0 ? images.length - 1 : selectedIndex - 1;
+//    }
 
-    //    slideElements.forEach((element, index) => {
-    //        element.className = getClassName(index);
-    //    });
-    //}
+//    slideElements.forEach((element, index) => {
+//        element.className = getClassName(index);
+//    });
+//}
 
-    //// Initialise le carrousel au chargement de la page
-    //window.onload = createCarousel;
+//// Initialise le carrousel au chargement de la page
+//window.onload = createCarousel;
 
 
 //menu
@@ -135,43 +135,43 @@ if (barreRecherche != null) {
 function recherche() {
     let chaine = document.getElementById("recherche").value;
 
-  
+
     fetch("/recettes/recherche?recherche=" + encodeURIComponent(chaine))
         .then((reponse) => reponse.json())
         .then((json) => {
             const conteneur = document.getElementById("recettes");
-            conteneur.innerHTML = ""; 
+            conteneur.innerHTML = "";
             json.forEach(afficherRecette);
         })
         .catch((erreur) => {
             console.error("Erreur lors de la récupération des recettes :", erreur);
         });
+}
 
-    function afficherRecette(recette) {
-        let lien = document.createElement("a");
-        lien.href = "/Recettes/Detail/" + recette.id;
-        lien.style.textDecoration = "none";
-        lien.style.color = "inherit";
 
-        let div = document.createElement("div");
-        div.classList.add("carte-recette");
+function afficherRecette(recette) {
+    let lien = document.createElement("a");
+    lien.href = "/Recettes/Detail/" + recette.id;
+    lien.style.textDecoration = "none";
+    lien.style.color = "inherit";
 
-        let nom = document.createElement("h2");
-        nom.textContent = recette.nom;
+    let div = document.createElement("div");
+    div.classList.add("carte-recette");
 
-        let img = document.createElement("img");
-        img.src = recette.photo;
-        img.alt = recette.nom;
-        img.classList.add("image-recette");
+    let nom = document.createElement("h2");
+    nom.textContent = recette.nom;
 
-        let description = document.createElement("p");
-        description.textContent = recette.description;
+    let img = document.createElement("img");
+    img.src = recette.photo;
+    img.alt = recette.nom;
+    img.classList.add("image-recette");
 
-        div.append(nom, img, description);
-        lien.appendChild(div); 
-        document.getElementById("recettes").appendChild(lien);
-    }
-   
+    let description = document.createElement("p");
+    description.textContent = recette.description;
+
+    div.append(nom, img, description);
+    lien.appendChild(div);
+    document.getElementById("recettes").appendChild(lien);
 }
 // partie suppression
 let suppressionButtonsU = document.getElementsByClassName("suppressionButtonU");

@@ -1,94 +1,84 @@
 ﻿@model RecetteAvisViewModel
-
- <h1>Bienvenue sur Saveurs Inédites</h1>
+<div class="titpag">
+<h1>Bienvenue sur Saveurs Inédites</h1>
+</div>
 <p>Découvrez des recettes uniques partagées par notre communauté.</p>
 
-@* <h2>Recettes populaires</h2> 
- <main>
-
-    <div class="main-content">
-        <div class="title_subtitle_holder">
-            <h1>Bienvenue</h1>
-        </div>
-    </div>
-</main> 
-    </div> *@
-<!-- <div class="search-icon">
-                <i class="fas fa-search"></i>  Icône de recherche -->
-    </div>
 <div id="contentacceuil" class="contentacceuil">
-    <div class="container" id="recherche-container">
-        <div id="category_wise_search-4" class="widget widget_search amr_widget posts_holder">
-            <form role="search" method="get" id="searchform" action="" class="">
-                <div class="display-recherche">
-                    <input aria-label="Rechercher un ingrédient ou une recette…" type="text" value="" name="s"
-                           id="s" placeholder="Entrez un ingrédient ou une recette…">
-                    <input type="submit" id="searchsubmit" value="Rechercher">
-                </div>
-            </form>
+	<div class="container" id="recherche-container">
+		<div id="category_wise_search-4" class="widget widget_search amr_widget posts_holder">
+			<form role="search" method="get" id="searchform" action="" class="">
+				<div class="display-recherche">
+					<input aria-label="Rechercher un ingrédient ou une recette…" type="text" value="" name="s"
+						   id="s" placeholder="Entrez un ingrédient ou une recette…">
+					<input type="submit" id="searchsubmit" value="Rechercher">
+				</div>
+			</form>
 
-        </div>
-    </div>
+		</div>
+	</div>
 </div>
 
 <!-- Section "accueil" sans image de fond -->
 <div class="acceuil-container">
 
-    <a href="/Recettes/Detail/1" class="categorie">
-        <div class="card-categorie-image">
-            <img src="/images/recettes/feuilletee-chaource.jpeg" width="250" height="250" viewBox="0 0 24 24">
-        </div>
-        <span class="catexte">Apéritif</span>
-    </a>
+	<a href="/Recettes/Detail/1" class="categorie">
+		<div class="card-categorie-image">
+			<img src="/images/recettes/feuilletee-chaource.jpeg" width="250" height="250" viewBox="0 0 24 24">
+		</div>
+		<span class="catexte">Apéritif</span>
+	</a>
 
-    <a href="/Recettes/Detail/2" class="categorie">
-        <div class="card-categorie-image">
-            <img src="/images/recettes/soupe.jpeg" width="250" height="250" viewBox="0 0 24 24">
-        </div>
-        <span class="catexte">Soupe</span>
-    </a>
-
-
-    <a href="/Recettes/Detail/3" class="categorie">
-        <div class="card-categorie-image">
-            <img src="/images/recettes/salade.jpeg" width="250" height="250" viewBox="0 0 24 24">
-        </div>
-        <span class="catexte">Entrées</span>
-    </a>
+	<a href="/Recettes/Detail/2" class="categorie">
+		<div class="card-categorie-image">
+			<img src="/images/recettes/soupe.jpeg" width="250" height="250" viewBox="0 0 24 24">
+		</div>
+		<span class="catexte">Soupe</span>
+	</a>
 
 
-    <a href="/Recettes/Detail/4" class="categorie">
-        <div class="card-categorie-image">
-            <img src="/images/recettes/pot.jpeg" width="250" height="250" viewBox="0 0 24 24">
-            
-        </div>
-        <span class="catexte">Plats</span>
-    </a>
+	<a href="/Recettes/Detail/3" class="categorie">
+		<div class="card-categorie-image">
+			<img src="/images/recettes/salade.jpeg" width="250" height="250" viewBox="0 0 24 24">
+		</div>
+		<span class="catexte">Entrées</span>
+	</a>
 
 
-    <a href="/Recettes/Detail/5" class="categorie">
-        <div class="card-categorie-image">
-            <img src="/images/recettes/haricot.jpeg" width="250" height="250" viewBox="0 0 24 24">
-        </div>
-        <span class="catexte">Plats Végétariens</span>
-    </a>
+	<a href="/Recettes/Detail/4" class="categorie">
+		<div class="card-categorie-image">
+			<img src="/images/recettes/pot.jpeg" width="250" height="250" viewBox="0 0 24 24">
 
-    <a href="/Recettes/Detail/6" class="categorie">
-        <div class="card-categorie-image">
-            <img src="/images/recettes/tarte.jpeg" width="250" height="250" viewBox="0 0 24 24">
-        </div>
-        <span class="catexte">Desserts</span>
-    </a>
+		</div>
+		<span class="catexte">Plats</span>
+	</a>
+
+
+	<a href="/Recettes/Detail/5" class="categorie">
+		<div class="card-categorie-image">
+			<img src="/images/recettes/haricot.jpeg" width="250" height="250" viewBox="0 0 24 24">
+		</div>
+		<span class="catexte">Plats Végétariens</span>
+	</a>
+
+	<a href="/Recettes/Detail/6" class="categorie">
+		<div class="card-categorie-image">
+			<img src="/images/recettes/tarte.jpeg" width="250" height="250" viewBox="0 0 24 24">
+		</div>
+		<span class="catexte">Desserts</span>
+	</a>
 
 </div>
 
-
-
-
-<div class="accueil-content">
-    <div id="content" class="content">
-        <h1>Mes recettes</h1>
-        <p></p>
-    </div>
-
-
+@* <div class="accueil-content">
+	<div id="content" class="content"> *@
+	@* 	<div class="titpag">
+		<h1>Mes recettes</h1>
+		<p></p>
+	</div> *@
+@if (User.Identity.IsAuthenticated)
+{
+	<div style="text-align:center;">
+		<a class="mesrecettesliens" href="@Url.Action("MesRecettes", "Recettes")">Mes recettes</a>
+	</div>
+}

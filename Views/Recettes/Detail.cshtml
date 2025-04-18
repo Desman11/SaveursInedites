@@ -1,84 +1,10 @@
-﻿@* @model Recette *@
-@* @model RecetteAvisViewModel *@
-
-@* <div class="main-content">
-    <div class="title_subtitle_holder">
-        <h1></h1>
-    </div>
-</div>
-        </main>
-    </div>
-
-<div class="aperitif-container">
-
-
-    <div class="aperitif">
-        <h1 class="titleaperitit"></h1>
-        <div class="line-separator"></div>
-        <div class="card-categorie-image">
-            <a href="#" class="dropbtn" onclick="toggleDropdown(event, 'compteDropdown')">
-                <img src="@Model.photo" width="250" height="250" viewBox="0 0 24 24">
-                <path fill="#fff"></path>
-            </a>
-        </div>
-
-
-        <div class="line-separator"></div>
-
-        <ul class="info">
-            <li>Preparation : @Model.temps_preparation</li>
-            <li>Cuisson : @Model.temps_cuisson</li>
-            <li>Difficulte : @Model.difficulte</li>
-        </ul>
-
-        <span>Ingrédients :</span>
-        <div class="ingredient"></div>
-        @if (Model.Ingredients != null && Model.Ingredients.Any())
-        {
-            <ol       class="no-number">
-                @foreach (var ingredient in Model.Ingredients)
-                {
-                    <li>
-                        @ingredient.Nom
-                    </li>
-                }
-            </ol>
-        }
-        else
-        {
-            <p>Aucun ingrédient disponible.</p>
-        }
-            <div class="etapeaperitif"></div>
-        @if (Model.Etapes != null && Model.Etapes.Any())
-        {
-            <ol class="no-number">
-        @foreach (var etape in Model.Etapes)
-        {
-           <li>             
-        @etape.texte
-                    </li>
-                }
-        </ol>
-            }
-            else
-            {
-                <p>Aucune étape disponible.</p>
-            }
-        </div>
- 
-    </div> *@
-
+﻿
 @model RecetteAvisViewModel
 
-@* <div class="main-content">
-    <div class="title_subtitle_holder">
-        <h1>@Model.Recette.nom</h1>
-    </div>
-</div> *@
 
 <div class="aperitif-container">
     <div class="aperitif">
-       @*  <h1 class="titleaperitit">@Model.Recette.nom</h1> *@
+      
         <div class="line-separator"></div>
 
         <div class="card-categorie-image">
@@ -153,14 +79,7 @@
 
             <input type="hidden" asp-for="NouvelAvis.id_recette" />
 
-          @*   <div class="rating">
-                @for (int i = 1; i <= 5; i++)
-                {
-                    <input type="radio" id="star@i" name="NouvelAvis.Note" value="@i" />
-                    <label for="star@i">★</label>
-                }
-                <span asp-validation-for="NouvelAvis.Note" class="text-danger"></span>
-            </div> *@
+        
             <div>
                 <label for="Note">Note (sur 5)</label>
                 <input type="number" asp-for="NouvelAvis.Note" min="1" max="5" required />
@@ -172,8 +91,6 @@
 
             <button type="submit">Envoyer le comentaire</button>
         </form>
-       
-
 
        
     </div>
@@ -182,31 +99,3 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
-@* <div>
-                <label for="Commentaire">Commentaire</label>
-                <textarea asp-for="NouvelAvis.Commentaire" required></textarea>
-            </div>
-
-            <input type="submit" value="Envoyer" /> *@
-
-@*  <h2>Avis existants :</h2>
-        @foreach (var avis in Model.AvisExistants)
-        {
-            <div>
-                <p>Note : @avis.Note</p>
-                <p>@avis.Commentaire</p>
-            </div>
-        }
-        @if (ViewData["Message"] != null)
-        {
-            <p>@ViewData["Message"]</p>
-        } *@
-
-@* 
-        <form asp-controller="Avis" asp-action="AjouterAvis" method="post">
-            <input type="hidden" asp-for="NouvelAvis.id_recette" value="@Model.Recette" />
-
-
-
-
-        </form> *@

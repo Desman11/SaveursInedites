@@ -153,7 +153,7 @@ public class RecettesController : Controller
         ModelState["Recette"].ValidationState = ModelValidationState.Skipped;
         ModelState["AvisExistants"].ValidationState = ModelValidationState.Skipped;
 
-        if (!ModelState.IsValid || avis.Note < 1 || avis.Note > 5 )
+        if (!ModelState.IsValid || avis.Note < 1 || avis.Note > 5)
         {
             TempData["Message"] = "Veuillez remplir tous les champs correctement.";
             return RedirectToAction("Detail", "Recettes", new { id = avis.id_recette });
@@ -208,49 +208,58 @@ public class RecettesController : Controller
         return View("EditeurRecette", viewModel);
     }
 
+    [Authorize]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Nouveau([FromForm] Recette recette)
     {
-
         string? filePath = null;
         string? anciennePhoto = null;
+
         try
         {
-
             if (!ModelState.IsValid)
             {
-                throw new Exception("Le modèle est pas valide");
+                throw new Exception("Le modèle n'est pas valide");
             }
-            string[] permittedExtensions = { ".jpeg", ".jpg", ".png", ".gif" };
 
+            string[] permittedExtensions = { ".jpeg", ".jpg", ".png", ".gif" };
             var ext = Path.GetExtension(recette.photoFile.FileName).ToLowerInvariant();
 
             if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
             {
-
                 ModelState["recette.photoFile"]!.Errors.Add(new ModelError("Ce type de fichier n'est pas accepté."));
                 throw new Exception("Ce type de fichier n'est pas accepté.");
             }
 
+            // 🔐 Récupération de l'utilisateur connecté
+            string? idUtilisateur = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            string query = "INSERT INTO Recettes (nom, temps_preparation, temps_cuisson, difficulte,photo) VALUES(@nom,@temps_preparation,@temps_cuisson,@difficulte,@photo) RETURNING id;";
-            string queryRecetteCategorie = "INSERT INTO categories_recettes(id_categorie,id_recette) VALUES(@id_categorie,@id_recette)";
+            if (string.IsNullOrEmpty(idUtilisateur))
+            {
+                return Unauthorized();
+            }
 
-            //gestion de la photo
+            recette.Createur = int.Parse(idUtilisateur); // 💡 propriété renommée pour correspondre à la base
 
+            // 🛠️ Requête avec `createur`
+            string query = @"
+            INSERT INTO Recettes (nom, temps_preparation, temps_cuisson, difficulte, photo, createur) 
+            VALUES (@nom, @temps_preparation, @temps_cuisson, @difficulte, @photo, @createur)
+            RETURNING id;";
 
+            string queryRecetteCategorie = "INSERT INTO categories_recettes(id_categorie, id_recette) VALUES(@id_categorie, @id_recette)";
 
             if (recette.photoFile != null && recette.photoFile.Length > 0)
             {
                 filePath = Path.Combine("/images/recettes/",
-                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.photoFile.FileName)).ToString();
+                    Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.photoFile.FileName));
 
                 using (var stream = System.IO.File.Create("wwwroot" + filePath))
                 {
                     recette.photoFile.CopyTo(stream);
                 }
-                // récupération du lien de l'ancienne photo
+
                 anciennePhoto = recette.photo;
                 recette.photo = filePath;
             }
@@ -260,8 +269,8 @@ public class RecettesController : Controller
                 connexion.Open();
                 using (var transaction = connexion.BeginTransaction())
                 {
-                    // insert d'une recette et récupération de son id
                     int recette_id = connexion.ExecuteScalar<int>(query, recette);
+
                     if (recette_id == 0)
                     {
                         if (anciennePhoto != null)
@@ -274,23 +283,27 @@ public class RecettesController : Controller
                     }
                     else
                     {
-                        // ajouter les liens avec les catégories
                         List<object> list = new List<object>();
                         foreach (int categorie_id in recette.categories_ids)
                         {
                             list.Add(new { id_recette = recette_id, id_categorie = categorie_id });
                         }
+
                         int res = connexion.Execute(queryRecetteCategorie, list);
+
                         if (res != recette.categories_ids.Count)
                         {
                             if (anciennePhoto != null)
                             {
                                 System.IO.File.Delete("wwwroot" + recette.photo);
                             }
+
                             transaction.Rollback();
                             throw new Exception("Erreur pendant l'ajout des catégories");
                         }
+
                         transaction.Commit();
+
                         if (anciennePhoto != null)
                         {
                             System.IO.File.Delete("wwwroot" + anciennePhoto);
@@ -298,24 +311,127 @@ public class RecettesController : Controller
                     }
                 }
             }
+
+            return RedirectToAction("Index");
         }
-
-
-        catch (Exception e)
+        catch (Exception ex)
         {
-            if (filePath != null)
-            {
-                System.IO.File.Delete("wwwroot" + filePath);
-            }
-            ViewData["ValidateMessage"] = e.Message;
-            EditeurRecetteViewModel viewModel = new EditeurRecetteViewModel();
-            viewModel.recette = recette;
-            viewModel.categories = ConstruireListeCategories();
-            return View("EditeurRecette", viewModel);
+            ModelState.AddModelError("", ex.Message);
+            return View(recette);
         }
-        TempData["ValidateMessage"] = "La recette a bien été créé";
-        return RedirectToAction("Index");
     }
+
+
+    //[HttpPost]
+    //[ValidateAntiForgeryToken]
+    //public IActionResult Nouveau([FromForm] Recette recette)
+    //{
+
+    //    string? filePath = null;
+    //    string? anciennePhoto = null;
+    //    try
+    //    {
+
+    //        if (!ModelState.IsValid)
+    //        {
+    //            throw new Exception("Le modèle est pas valide");
+    //        }
+    //        string[] permittedExtensions = { ".jpeg", ".jpg", ".png", ".gif" };
+
+    //        var ext = Path.GetExtension(recette.photoFile.FileName).ToLowerInvariant();
+
+    //        if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
+    //        {
+
+    //            ModelState["recette.photoFile"]!.Errors.Add(new ModelError("Ce type de fichier n'est pas accepté."));
+    //            throw new Exception("Ce type de fichier n'est pas accepté.");
+    //        }
+
+
+    //        string query = "INSERT INTO Recettes (nom, temps_preparation, temps_cuisson, difficulte,photo) VALUES(@nom,@temps_preparation,@temps_cuisson,@difficulte,@photo) RETURNING id;";
+    //        string queryRecetteCategorie = "INSERT INTO categories_recettes(id_categorie,id_recette) VALUES(@id_categorie,@id_recette)";
+
+    //        //gestion de la photo
+
+
+
+    //        if (recette.photoFile != null && recette.photoFile.Length > 0)
+    //        {
+    //            filePath = Path.Combine("/images/recettes/",
+    //                Path.GetFileNameWithoutExtension(Path.GetRandomFileName()) + Path.GetExtension(recette.photoFile.FileName)).ToString();
+
+    //            using (var stream = System.IO.File.Create("wwwroot" + filePath))
+    //            {
+    //                recette.photoFile.CopyTo(stream);
+    //            }
+    //            // récupération du lien de l'ancienne photo
+    //            anciennePhoto = recette.photo;
+    //            recette.photo = filePath;
+    //        }
+
+    //        using (var connexion = new NpgsqlConnection(_connexionString))
+    //        {
+    //            connexion.Open();
+    //            using (var transaction = connexion.BeginTransaction())
+    //            {
+    //                // insert d'une recette et récupération de son id
+    //                int recette_id = connexion.ExecuteScalar<int>(query, recette);
+    //                if (recette_id == 0)
+    //                {
+    //                    if (anciennePhoto != null)
+    //                    {
+    //                        System.IO.File.Delete("wwwroot" + recette.photo);
+    //                    }
+
+    //                    transaction.Rollback();
+    //                    throw new Exception("Erreur pendant la création de la recette.");
+    //                }
+    //                else
+    //                {
+    //                    // ajouter les liens avec les catégories
+    //                    List<object> list = new List<object>();
+    //                    foreach (int categorie_id in recette.categories_ids)
+    //                    {
+    //                        list.Add(new { id_recette = recette_id, id_categorie = categorie_id });
+    //                    }
+    //                    int res = connexion.Execute(queryRecetteCategorie, list);
+    //                    if (res != recette.categories_ids.Count)
+    //                    {
+    //                        if (anciennePhoto != null)
+    //                        {
+    //                            System.IO.File.Delete("wwwroot" + recette.photo);
+    //                        }
+    //                        transaction.Rollback();
+    //                        throw new Exception("Erreur pendant l'ajout des catégories");
+    //                    }
+    //                    transaction.Commit();
+    //                    if (anciennePhoto != null)
+    //                    {
+    //                        System.IO.File.Delete("wwwroot" + anciennePhoto);
+    //                    }
+    //                }
+    //            }
+    //        }
+    //    }
+
+
+    //    catch (Exception e)
+    //    {
+    //        if (filePath != null)
+    //        {
+    //            System.IO.File.Delete("wwwroot" + filePath);
+    //        }
+    //        ViewData["ValidateMessage"] = e.Message;
+    //        EditeurRecetteViewModel viewModel = new EditeurRecetteViewModel();
+    //        viewModel.recette = recette;
+    //        viewModel.categories = ConstruireListeCategories();
+    //        return View("EditeurRecette", viewModel);
+    //    }
+    //    TempData["ValidateMessage"] = "La recette a bien été créé";
+    //    return RedirectToAction("Index");
+    //}
+
+
     //[Authorize(Roles = "admin")]
     [HttpGet]
     public IActionResult Modifier(int id)
@@ -341,7 +457,7 @@ public class RecettesController : Controller
                 return NotFound();
             }
         }
-        
+
         ViewData["ActionFormulaire"] = "Modifier";
         // retourne la vue spécifiée (qui est dans le dossier recettes)
         if (viewModel.recette.photo != null)
@@ -391,7 +507,7 @@ public class RecettesController : Controller
 
             string query = "UPDATE recettes SET nom=@nom, temps_preparation=@temps_preparation, temps_cuisson=@temps_cuisson, difficulte=@difficulte, photo=@photo  WHERE id=@id";
 
-       
+
 
 
             using (var connexion = new NpgsqlConnection(_connexionString))
@@ -419,7 +535,7 @@ public class RecettesController : Controller
                         // 2 - insertion des catégories
                         string queryRecetteCategorie = "INSERT INTO categories_recettes(id_categorie, id_recette) VALUES(@id_categorie, @id_recette)";
 
-                       
+
                         List<object> list = new List<object>();
                         foreach (int categorie_id in recette.categories_ids)
                         {
@@ -514,6 +630,29 @@ public class RecettesController : Controller
             recettes = connexion.Query<Recette>(query, new { recherche = $"%{recherche.ToLower()}%" }).ToList();
         }
         return Json(recettes);
+    }
+
+
+    [Authorize]
+    public IActionResult MesRecettes()
+    {
+        string? idUtilisateur = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(idUtilisateur))
+        {
+            return Unauthorized();
+        }
+
+        string query = "SELECT * FROM Recettes WHERE createur = @createur";
+
+        List<Recette> recettes;
+
+        using (var connexion = new NpgsqlConnection(_connexionString))
+        {
+            recettes = connexion.Query<Recette>(query, new { createur = int.Parse(idUtilisateur) }).ToList();
+        }
+
+        return View(recettes);
     }
 }
 

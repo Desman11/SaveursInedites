@@ -9,8 +9,11 @@
     <p>@TempData["ValidateMessage"]</p>
 }
 
-<div>
-    <h1>Recette</h1>
+<div class="titpag">
+    
+    
+    <h1>Recettes</h1>
+   
     <table>
         <thead>
             <tr>
@@ -27,23 +30,33 @@
             @foreach (var recette in Model)
             {
                 <tr>
+
                     <td>@recette.id</td>
-                    <td>@recette.nom</td>
-                    <td>@recette.temps_preparation</td>
-                    <td>@recette.temps_cuisson</td>
-                    <td>@recette.difficulte</td>
+                    <td data-label="Nom">@recette.nom</td>
+
+              
+
+                    <td data-label="Temps_preparation">@recette.temps_preparation</td>
+
+                    <td data-label="Temps_cuisson">@recette.temps_cuisson</td>
+
+                    <td data-label="Difficulte">@recette.difficulte</td>
+
                     <td>
                         <a asp-controller="Recettes" asp-action="Detail" asp-route-id="@recette.id">Détails</a>
                     </td>
                     <td>
                         <a asp-controller="Recettes" asp-action="Modifier" asp-route-id="@recette.id">Modifier</a>
                     </td>
-                    <td>
-                        <form asp-controller="Recettes" asp-action="Supprimer" method="post">
-                            <input type="hidden" name="idRecette" value="@recette.id">
-                            <button type="button" class="suppressionButton" data-nom="@recette.nom">Supprimer</button>
-                        </form>
-                    </td>
+                  @*   @if (User.IsInRole("Admin"))
+                    { *@
+                        <td>
+                            <form asp-controller="Recettes" asp-action="Supprimer" method="post">
+                                <input type="hidden" name="idRecette" value="@recette.id">
+                                <button type="button" class="suppressionButton" data-nom="@recette.nom">Supprimer</button>
+                            </form>
+                        </td>
+                  @*   } *@
                 </tr>
             }
         </tbody>

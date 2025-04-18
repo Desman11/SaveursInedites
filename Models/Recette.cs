@@ -40,6 +40,7 @@ namespace SaveursInedites.Models
                                                       // Liste des ingrédients liés à la recette
         public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
 
+        public int Createur { get; set; }
 
 
     }

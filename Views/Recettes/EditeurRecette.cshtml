@@ -1,4 +1,4 @@
-﻿@model EditeurRecetteViewModel
+﻿@* @model EditeurRecetteViewModel
 
 <form asp-controller="Recettes" asp-action="@ViewData["ActionFormulaire"]" method="post" enctype="multipart/form-data">
     <table>
@@ -62,4 +62,81 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
 }
+ *@
+@model EditeurRecetteViewModel
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>Formulaire Recette</title>
+
+</head>
+<body>
+
+    <form asp-controller="Recettes" asp-action="@ViewData["ActionFormulaire"]" method="post" enctype="multipart/form-data">
+        <table>
+            <tr>
+                <td><label asp-for="@Model.recette.nom"></label></td>
+                <td><input asp-for="@Model.recette.nom" /></td>
+                <td><span asp-validation-for="@Model.recette.nom" class="text-danger"></span></td>
+            </tr>
+            <tr>
+                <td><label asp-for="@Model.recette.temps_preparation"></label></td>
+                <td><input asp-for="@Model.recette.temps_preparation" /></td>
+                <td><span asp-validation-for="@Model.recette.temps_preparation" class="text-danger"></span></td>
+            </tr>
+            <tr>
+                <td><label asp-for="@Model.recette.temps_cuisson"></label></td>
+                <td><input asp-for="@Model.recette.temps_cuisson" /></td>
+                <td><span asp-validation-for="@Model.recette.temps_cuisson" class="text-danger"></span></td>
+            </tr>
+            <tr>
+                <td><label asp-for="@Model.recette.difficulte"></label></td>
+                <td><input asp-for="@Model.recette.difficulte" /></td>
+                <td><span asp-validation-for="@Model.recette.difficulte" class="text-danger"></span></td>
+            </tr>
+            <tr>
+                <td><label asp-for="@Model.recette.categories_ids"></label></td>
+                <td><select asp-for="@Model.recette.categories_ids" asp-items="@Model.categories"></select></td>
+                <td><span asp-validation-for="@Model.recette.categories_ids" class="text-danger"></span></td>
+            </tr>
+            <tr>
+                <td><label asp-for="@Model.recette.photoFile"></label></td>
+                <td><input type="file" asp-for="@Model.recette.photoFile" /></td>
+                <td><span asp-validation-for="@Model.recette.photoFile" class="text-danger"></span></td>
+            </tr>
+        </table>
+
+        @if (@ViewData["ActionFormulaire"]!.ToString() == "Modifier")
+        {
+            <input type="hidden" asp-for="@Model.recette.id" />
+            @if (@Model.recette.photo != null)
+            {
+                <input type="hidden" asp-for="@Model.recette.photo" />
+                <img src="@Model.recette.photo" width="250" height="250" alt="textalternatif" />
+                <div>
+                    <input type="checkbox" id="supprimerPhoto" name="supprimerPhoto" />
+                    <label for="supprimerPhoto">Supprimer photo ?</label>
+                </div>
+            }
+            else
+            {
+                <p>Cette recette n'a pas de photo.</p>
+            }
+        }
+
+        <input type="submit" value="Envoyer" />
+    </form>
+
+    @if (ViewData.ContainsKey("ValidateMessage"))
+    {
+        <p>@ViewData["ValidateMessage"]</p>
+    }
+
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
+
+</body>
+</html>

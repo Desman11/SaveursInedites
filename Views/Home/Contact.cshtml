@@ -1,4 +1,15 @@
-﻿<h1>Contactez-nous</h1>
+﻿<div class="titpag">
+<h1>Contactez-nous</h1>
+</div>
+<main id="login-page">
+    <div class="auth-container" id="auth-container">
+        <div id="login-form">
+            @if (TempData["ValidateMessage"] != null)
+            {
+                <p class="text-black">
+                    @TempData["ValidateMessage"]
+                </p>
+            }
 <form>
     <div class="mb-3">
         <label for="name" class="form-label">Nom</label>
@@ -12,5 +23,5 @@
         <label for="message" class="form-label">Message</label>
         <textarea class="form-control" id="message" rows="3"></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Envoyer</button>
+                <button id="btnEnvoyer" type="submit">Envoyer</button>
 </form>
