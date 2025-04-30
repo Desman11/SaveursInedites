@@ -1,29 +1,37 @@
 ﻿@model List<Recette>
+<!-- La vue attend une liste d'objets de type Recette comme modèle -->
+
 <div class="aperitif-container">
     <div class="aperitif">
+        <!-- Bloc contenant le contenu de la section apéritif -->
 
-     
         <div class="line-separator"></div>
-
-
-@if (Model.Count == 0)
-{
-    <p>Vous n'avez pas encore créé de recette.</p>
-}
-
-else
-{
-    <ul>
-        @foreach (var recette in Model)
+        <!-- Un séparateur visuel entre les sections -->
+        @if (Model.Count == 0)
         {
-            <li>
-                <strong>@recette.nom</strong><br />
-                Temps : @recette.temps_preparation + @recette.temps_cuisson min<br />
-                Difficulté : @recette.difficulte<br />
-                        <a class="voirlarecette" href="@Url.Action("Detail", "Recettes", new { id = recette.id })">Voir la recette</a>
-
-            </li>
+            <!-- Si le modèle (la liste de recettes) est vide, affiche ce message -->
+            <p>Vous n'avez pas encore créé de recette.</p>
         }
-    </ul>
-}
+        else
+        {
+            <!-- Si la liste de recettes n'est pas vide, afficher les recettes -->
+            <ul>
+                @foreach (var recette in Model)
+                {
+                    <!-- Pour chaque recette dans la liste, afficher ses informations -->
+                    <li>
+                        <strong>@recette.nom</strong><br />
+                        <!-- Affiche le nom de la recette en gras -->
+                        Temps : @recette.temps_preparation + @recette.temps_cuisson min<br />
+                        <!-- Affiche le temps total (préparation + cuisson) -->
+                        Difficulté : @recette.difficulte<br />
+                        <!-- Affiche la difficulté de la recette -->
 
+                        <a class="voirlarecette" href="@Url.Action("Detail", "Recettes", new { id = recette.id })">Voir la recette</a>
+                        <!-- Lien vers la page de détail de la recette, avec l'ID de la recette dans l'URL -->
+                    </li>
+                }
+            </ul>
+        }
+    </div>
+</div>

@@ -1,39 +1,73 @@
 ﻿@model Utilisateur
+<!-- Indique que la vue utilise un modèle de type Utilisateur -->
 @{
     List<SelectListItem> listeRoles = (List<SelectListItem>)ViewData["listeRoles"];
+    // Récupère la liste des rôles transmise via ViewData, puis la caste en liste d'éléments de sélection
 }
+
 <h1>Nouveau utilisateur</h1>
+<!-- Titre principal de la page -->
+
 <form asp-controller="Utilisateurs" asp-action="nouveau" method="post">
+    <!-- Début du formulaire : envoie les données via POST à l'action "nouveau" du contrôleur "Utilisateurs" -->
+
     <table>
         <tr>
             <td><label asp-for="@Model.identifiant"></label></td>
+            <!-- Affiche le label associé au champ identifiant -->
+
             <td><input asp-for="@Model.identifiant"></td>
+            <!-- Champ de saisie lié à la propriété identifiant du modèle -->
+
             <td><span asp-validation-for="@Model.identifiant" class="text-danger"></span></td>
+            <!-- Zone de validation pour les erreurs associées à identifiant -->
         </tr>
+
         <tr>
             <td><label asp-for="@Model.email"></label></td>
+            <!-- Label pour le champ email -->
+
             <td><input asp-for="@Model.email"></td>
+            <!-- Champ de saisie pour l'email -->
+
             <td><span asp-validation-for="@Model.email" class="text-danger"></span></td>
+            <!-- Affiche les messages d'erreur liés à email -->
         </tr>
+
         <tr>
             <td><label asp-for="@Model.role_id"></label></td>
+            <!-- Label pour le champ rôle -->
+
             <td><select asp-for="@Model.role_id" asp-items="@listeRoles"></select></td>
+            <!-- Menu déroulant (select) alimenté par la liste des rôles -->
+
             <td><span asp-validation-for="@Model.role_id" class="text-danger"></span></td>
+            <!-- Zone de validation pour les erreurs liées au rôle -->
         </tr>
+
         <tr>
             <td><label asp-for="password"></label></td>
+            <!-- Label pour le mot de passe -->
+
             <td><input asp-for="password" type="password" class="form-control" required /></td>
+            <!-- Champ de mot de passe, requis -->
+
             <td><span asp-validation-for="password" class="text-danger"></span></td>
+            <!-- Zone d'affichage des erreurs de validation pour password -->
         </tr>
     </table>
+
     <input type="submit" value="Envoyer">
+    <!-- Bouton d'envoi du formulaire -->
 </form>
 
 @if (ViewData.ContainsKey("ValidateMessage"))
 {
     <p>@ViewData["ValidateMessage"]</p>
+    <!-- Si un message de validation est présent dans ViewData, on l'affiche ici -->
 }
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <!-- Injection du script de validation côté client (jquery.validate + unobtrusive.js) -->
 }

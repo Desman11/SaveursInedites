@@ -1,30 +1,43 @@
 ﻿@using Microsoft.AspNetCore.Http.Features
 
 @{
+    // On récupère l'interface ITrackingConsentFeature qui permet de gérer les préférences de suivi de l'utilisateur.
     var consentFeature = Context.Features.Get<ITrackingConsentFeature>();
+
+    // Si l'utilisateur n'a pas donné son consentement ou si le consentement n'est pas géré, on affiche la bannière.
     var showBanner = !consentFeature?.CanTrack ?? false;
+
+    // Si consentFeature existe, on génère un cookie de consentement pour suivre les préférences de l'utilisateur.
     var cookieString = consentFeature?.CreateConsentCookie();
 }
 
 @if (showBanner)
 {
+    // Si le consentement n'a pas encore été donné, on affiche la bannière de consentement.
     <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
+        <!-- Message de la bannière -->
         Vos données, votre choix.
-        @*<a asp-page="/Privacy">Politique de confidentialité</a> -*@
+
+        <!-- Lien pour obtenir plus d'informations sur les cookies -->
         <a href="/Home/cookies">En savoir plus sur les cookies</a>.
 
+        <!-- Bouton permettant de fermer la bannière et d'accepter les cookies -->
         <button type="button" class="accept-policy close btn btn-primary" data-bs-dismiss="alert"
                 aria-label="Fermer" data-cookie-string="@cookieString">
             Accepter
         </button>
     </div>
+
     <script>
+        // Ajoute un événement au bouton "Accepter" pour enregistrer le consentement dans un cookie lorsque l'utilisateur clique dessus.
         (function () {
             var button = document.querySelector("#cookieConsent button[data-cookie-string]");
+
+            // Écoute l'événement de clic sur le bouton.
             button.addEventListener("click", function (event) {
+                // Crée un cookie avec les informations de consentement
                 document.cookie = button.dataset.cookieString;
             }, false);
         })();
     </script>
 }
-

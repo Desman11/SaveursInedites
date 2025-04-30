@@ -1,51 +1,57 @@
 ﻿<!DOCTYPE html>
+ <!-- Déclaration du type de document HTML5 -->
 <html lang="fr">
+ <!-- Racine du document, langue définie sur français -->
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - SaveursInedites</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/SaveursInedites.styles.css" asp-append-version="true" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	<title>Accueil</title>
-
+	<meta charset="utf-8" /> <!-- Définition de l'encodage des caractères en UTF-8 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Permet un affichage responsive sur mobile -->
+	<title>@ViewData["Title"] - SaveursInedites</title> <!-- Titre de la page dynamique via ViewData -->
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> <!-- Inclusion de Bootstrap (CSS) depuis la librairie locale -->
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> <!-- Feuille de style personnalisée, avec version pour le cache -->
+	<link rel="stylesheet" href="~/SaveursInedites.styles.css" asp-append-version="true" /> <!-- Autre fichier CSS généré pour le site -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Inclusion de Font Awesome pour les icônes -->
+	<title>Accueil</title> <!-- Titre statique (à supprimer ou fusionner avec l'autre titre pour éviter les doublons) -->
 </head>
 <body class="bodyspecial">
-	
-		<header>
+	<!-- Début du corps de la page, avec une classe CSS personnalisée -->
+
+	<header>
+		<!-- Début de l’en-tête -->
+		<div class="logo_wrapper">
+			<!-- Conteneur pour le logo -->
+			<div class="q_logo"><span>Saveurs Inédites</span></div> <!-- Affichage du nom/logo du site -->
+		</div>
+	</header>
+
+	<div class="main-content">
+		<!-- Conteneur principal pour le contenu central -->
+		<partial name="_CookieConsentPartial" /> <!-- Inclusion de la partial view pour le bandeau de cookies -->
+		<div class="title_subtitle_holder">
+			<!-- Conteneur pour le titre de la page -->
+			<h1>@ViewData["titrePage"]</h1> <!-- Affichage dynamique du titre via ViewData -->
+		</div>
+	</div>
+
+	<main role="main" class="">
+		<!-- Section principale de la page, rôle défini pour l’accessibilité -->
+		@RenderBody() <!-- Emplacement où le contenu des vues enfants sera injecté -->
+	</main>
+
+	<!-- Pied de page -->
+	<footer class="footer">
+		<!-- Début du pied de page avec une classe CSS personnalisée -->
+		<div class="footer-content">
+			<!-- Conteneur pour le contenu principal du pied de page -->
 			<div class="logo_wrapper">
-				<div class="q_logo"><span>Saveurs Inédites</span></div>
-			</div>
-
-		</header>
-	
-		<div class="main-content">
-		<partial name="_CookieConsentPartial" />
-			<div class="title_subtitle_holder">
-				<h1>@ViewData["titrePage"]</h1>
-
+				<!-- Répétition du logo dans le pied de page -->
+				<div class="q_logo"><span>Saveurs Inédites</span></div> <!-- Nom/logo du site -->
 			</div>
 		</div>
+		<div class="footer-copyright">
+			&copy; 2025 Tous droits réservés. / <a href="#">Mentions Légales</a> <!-- Mentions légales + copyright -->
+		</div>
+	</footer>
 
-		<main role="main" class="">
-			@RenderBody()
-		</main>
-
-		<!-- Pied de page -->
-		<footer class="footer">
-		
-			<div class="footer-content">
-				<div class="logo_wrapper">
-					<div class="q_logo"><span>Saveurs Inédites</span></div>
-				</div>
-
-			</div>
-			<div class="footer-copyright">
-				&copy; 2025 Tous droits réservés. / <a href="#">Mentions Légales</a>
-			</div>
-		</footer>
-	
-		@await RenderSectionAsync("Scripts", required: false)
+	@await RenderSectionAsync("Scripts", required: false) <!-- Inclusion facultative de scripts supplémentaires depuis les vues enfants -->
 </body>
 </html>

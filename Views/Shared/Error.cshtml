@@ -1,25 +1,39 @@
 ﻿@model ErrorViewModel
+<!-- Déclare que la vue utilise le modèle ErrorViewModel -->
 @{
     ViewData["Title"] = "Error";
+    <!-- Définit le titre de la page dans la balise <title> du layout -->
 }
 
 <h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<!-- Affiche un titre principal en rouge indiquant qu'une erreur s'est produite -->
 
+<h2 class="text-danger">An error occurred while processing your request.</h2>
+<!-- Message secondaire informant l'utilisateur qu'une erreur est survenue -->
 @if (Model.ShowRequestId)
 {
+    <!-- Si la propriété ShowRequestId du modèle est vraie, affiche l'identifiant de la requête -->
     <p>
         <strong>Request ID:</strong> <code>@Model.RequestId</code>
+        <!-- Affiche l'ID de la requête dans une balise <code> pour mise en forme -->
     </p>
 }
 
 <h3>Development Mode</h3>
+<!-- Titre pour la section d'informations sur le mode développement -->
+
 <p>
     Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
+    <!-- Explique que le mode développement fournit plus de détails sur les erreurs -->
 </p>
+
 <p>
     <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+    <!-- Avertissement sur l'utilisation du mode développement en production -->
     It can result in displaying sensitive information from exceptions to end users.
+    <!-- Risque de fuite d'informations sensibles en cas d'activation du mode développement -->
     For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
+    <!-- Indique comment activer le mode développement via une variable d'environnement -->
     and restarting the app.
+    <!-- Nécessite de redémarrer l'application pour que le changement prenne effet -->
 </p>

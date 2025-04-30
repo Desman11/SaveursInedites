@@ -1,22 +1,41 @@
 ﻿@model Role
+<!-- Spécifie que le modèle utilisé pour cette vue est un objet de type "Role" -->
+
 <h1>Nouveau Role :</h1>
+<!-- Titre de la page, indiquant qu'il s'agit de la création d'un nouveau rôle -->
+
 <form asp-controller="Roles" asp-action="Nouveau" method="post">
+    <!-- Début du formulaire : il va envoyer une requête POST vers l'action "Nouveau" du contrôleur "Roles" -->
+
     <table>
+        <!-- Utilisation d'un tableau pour structurer les champs du formulaire -->
+
         <tr>
+            <!-- Ligne du tableau pour le champ "Nom" du rôle -->
+
             <td><label asp-for="@Model.nom"></label></td>
+            <!-- Affichage du label pour le champ "Nom", lié à la propriété "nom" du modèle -->
+
             <td><input asp-for="@Model.nom"></td>
+            <!-- Champ de saisie pour le nom du rôle, lié à la propriété "nom" du modèle -->
+
             <td><span asp-validation-for="@Model.nom" class="text-danger"></span></td>
+            <!-- Affichage d'un message d'erreur de validation, si nécessaire -->
         </tr>
 
     </table>
+
     <input type="submit" value="Envoyer">
+    <!-- Bouton pour soumettre le formulaire -->
 </form>
+
 @if (ViewData.ContainsKey("ValidateMessage"))
 {
     <p>@ViewData["ValidateMessage"]</p>
+    <!-- Si un message de validation est présent dans ViewData, il sera affiché ici -->
 }
+
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <!-- Inclusion du fichier de scripts de validation -->
 }
-
-

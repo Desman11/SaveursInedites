@@ -1,31 +1,47 @@
 ﻿@model List<Role>
+<!-- Le modèle de la vue est une liste d'objets "Role" -->
 @{
     ViewData["Title"] = "Roles";
 }
+<!-- Définit le titre de la page dans la variable ViewData -->
 @if (TempData.ContainsKey("ValidateMessage"))
 {
     <p>@TempData["ValidateMessage"]</p>
+    <!-- Si TempData contient une clé "ValidateMessage", affiche son contenu (message de validation) -->
 }
+
 <div>
     <h1>Roles</h1>
+    <!-- Titre principal de la page -->
+
     <table>
+        <!-- Début de la table pour afficher la liste des rôles -->
+
         <thead>
             <tr>
+                <!-- En-tête de la table avec les colonnes "ID" et "Nom" -->
                 <th>ID</th>
                 <th>Nom</th>
             </tr>
         </thead>
+
         <tbody>
+            <!-- Corps de la table où les rôles sont affichés -->
             @foreach (var Role in @Model!)
             {
+                <!-- Pour chaque rôle dans la liste passée au modèle, une ligne de la table est ajoutée -->
                 <tr>
                     <td>@(Role.id)</td>
+                    <!-- Affiche l'ID du rôle -->
                     <td>@(Role.nom)</td>
-                    <td><a asp-controller="Roles" asp-action="Detail" asp-route-id=@(Role.id)>Detail</a></td>
+                    <!-- Affiche le nom du rôle -->
+                    <td>
+                        <a asp-controller="Roles" asp-action="Detail" asp-route-id=@(Role.id)>Detail</a>
+                        <!-- Lien pour voir les détails d'un rôle, redirige vers l'action "Detail" du contrôleur "Roles" avec l'ID du rôle -->
+                    </td>
                 </tr>
             }
         </tbody>
+
     </table>
 </div>
-
-

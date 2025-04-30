@@ -6,8 +6,15 @@
     <h1>Recherche de recettes</h1>
     </div>
 
+<!-- Conteneur de la zone de recherche -->
 <div class="zone-recherche">
+    <!-- Champ de saisie pour entrer le nom d'une recette. Il a un identifiant "recherche" 
+    pour pouvoir être facilement ciblé en JavaScript -->
     <input type="text" id="recherche" placeholder="Tapez un nom de recette..." autocomplete="off">
+    <!-- Le placeholder donne un indice à l'utilisateur sur ce qu'il doit saisir. 
+    "autocomplete" désactive les suggestions automatiques du navigateur -->
 </div>
 
+<!-- Conteneur pour afficher les recettes recherchées. Les recettes seront insérées ici par JavaScript -->
 <div id="recettes" class="grille-recettes"></div>
+

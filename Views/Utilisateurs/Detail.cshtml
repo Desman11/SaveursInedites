@@ -1,8 +1,16 @@
 ﻿@model Utilisateur
+<!-- Déclare que la vue utilise le modèle "Utilisateur" -->
+
 <h1>Nouvel utilisateur</h1>
+<!-- Titre principal de la page -->
+
 <div>
 	ID: @Model.Id <br>
+	<!-- Affiche l'ID de l'utilisateur -->
 	Identifiant:@Model.identifiant <br>
+	<!-- Affiche l'identifiant (nom d'utilisateur) -->
 	Email:@Model.email <br>
+	<!-- Affiche l'adresse e-mail -->
 	Password:@Model.password <br>
+	<!-- Affiche le mot de passe (attention : cela ne devrait pas être affiché en clair en production) -->
 </div>

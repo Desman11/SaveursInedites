@@ -1,141 +1,110 @@
-﻿@* @model EditeurRecetteViewModel
-
-<form asp-controller="Recettes" asp-action="@ViewData["ActionFormulaire"]" method="post" enctype="multipart/form-data">
-    <table>
-        <tr>
-            <td><label asp-for="@Model.recette.nom"></label></td>
-            <td><input asp-for="@Model.recette.nom"></td>
-            <td><span asp-validation-for="@Model.recette.nom" class="text-danger"></span></td>
-        </tr>
-        <tr>
-            <td><label asp-for="@Model.recette.temps_preparation"></label></td>
-            <td><input asp-for="@Model.recette.temps_preparation"></td>
-            <td><span asp-validation-for="@Model.recette.temps_preparation" class="text-danger"></span></td>
-        </tr>
-        <tr>
-            <td><label asp-for="@Model.recette.temps_cuisson"></label></td>
-            <td><input asp-for="@Model.recette.temps_cuisson"></td>
-            <td><span asp-validation-for="@Model.recette.temps_cuisson" class="text-danger"></span></td>
-        </tr>
-        <tr>
-            <td><label asp-for="@Model.recette.difficulte"></label></td>
-            <td><input asp-for="@Model.recette.difficulte"></td>
-            <td><span asp-validation-for="@Model.recette.difficulte" class="text-danger"></span></td>
-        </tr>
-        <tr>
-            <td><label asp-for="@Model.recette.categories_ids"></label></td>
-            <td><select asp-for="@Model.recette.categories_ids" asp-items="@Model.categories"></select></td>
-            <td><span asp-validation-for="@Model.recette.categories_ids" class="text-danger"></span></td>
-        </tr>
-        <tr>
-            <td><label asp-for="@Model.recette.photoFile"></label></td>
-            <td><input type="file" asp-for="@Model.recette.photoFile"></td>
-            <td><span asp-validation-for="@Model.recette.photoFile" class="text-danger"></span></td>
-        </tr>
-       
-    </table>
-    @if (@ViewData["ActionFormulaire"]!.ToString() == "Modifier")
-    {
-        <input type="hidden" asp-for="@Model.recette.id">
-        @if (@Model.recette.photo != null)
-        {
-            <input type="hidden" asp-for="@Model.recette.photo">
-            <img src="@Model.recette.photo" width="250" height="250" alt="textalternatif">
-            <div>
-                <input type="checkbox" id="supprimerPhoto" name="supprimerPhoto" />
-                <label for="supprimerPhoto">supprimer photo ?</label>
-            </div>
-        }
-        else
-        {
-            <p>Cette Recette n'a pas de photo.</p>
-        }
-    }
-    <input type="submit" value="Envoyer">
-</form>
-
-@if (ViewData.ContainsKey("ValidateMessage"))
-{
-    <p>@ViewData["ValidateMessage"]</p>
-}
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
- *@
-@model EditeurRecetteViewModel
+﻿@model EditeurRecetteViewModel
+<!-- Définit le modèle de données passé à la vue (EditeurRecetteViewModel) -->
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="utf-8" />
+    <!-- Définit l'encodage de caractères en UTF-8 -->
     <title>Formulaire Recette</title>
-
+    <!-- Titre de la page -->
 </head>
 <body>
 
     <form asp-controller="Recettes" asp-action="@ViewData["ActionFormulaire"]" method="post" enctype="multipart/form-data">
+        <!-- Formulaire pour créer ou modifier une recette. L'action du formulaire dépend de la valeur de ViewData["ActionFormulaire"] -->
+
         <table>
+            <!-- Début du tableau pour organiser les champs de saisie -->
             <tr>
                 <td><label asp-for="@Model.recette.nom"></label></td>
+                <!-- Label pour le champ "nom" de la recette -->
                 <td><input asp-for="@Model.recette.nom" /></td>
+                <!-- Champ de saisie pour le nom de la recette -->
                 <td><span asp-validation-for="@Model.recette.nom" class="text-danger"></span></td>
+                <!-- Affichage des erreurs de validation pour le champ "nom" -->
             </tr>
             <tr>
                 <td><label asp-for="@Model.recette.temps_preparation"></label></td>
+                <!-- Label pour le champ "temps de préparation" -->
                 <td><input asp-for="@Model.recette.temps_preparation" /></td>
+                <!-- Champ de saisie pour le temps de préparation -->
                 <td><span asp-validation-for="@Model.recette.temps_preparation" class="text-danger"></span></td>
+                <!-- Affichage des erreurs de validation pour le champ "temps de préparation" -->
             </tr>
             <tr>
                 <td><label asp-for="@Model.recette.temps_cuisson"></label></td>
+                <!-- Label pour le champ "temps de cuisson" -->
                 <td><input asp-for="@Model.recette.temps_cuisson" /></td>
+                <!-- Champ de saisie pour le temps de cuisson -->
                 <td><span asp-validation-for="@Model.recette.temps_cuisson" class="text-danger"></span></td>
+                <!-- Affichage des erreurs de validation pour le champ "temps de cuisson" -->
             </tr>
             <tr>
                 <td><label asp-for="@Model.recette.difficulte"></label></td>
+                <!-- Label pour le champ "difficulté" -->
                 <td><input asp-for="@Model.recette.difficulte" /></td>
+                <!-- Champ de saisie pour la difficulté -->
                 <td><span asp-validation-for="@Model.recette.difficulte" class="text-danger"></span></td>
+                <!-- Affichage des erreurs de validation pour le champ "difficulté" -->
             </tr>
             <tr>
                 <td><label asp-for="@Model.recette.categories_ids"></label></td>
+                <!-- Label pour le champ "categories_ids" -->
                 <td><select asp-for="@Model.recette.categories_ids" asp-items="@Model.categories"></select></td>
+                <!-- Liste déroulante pour choisir la catégorie de la recette (les options viennent de @Model.categories) -->
                 <td><span asp-validation-for="@Model.recette.categories_ids" class="text-danger"></span></td>
+                <!-- Affichage des erreurs de validation pour le champ "categories_ids" -->
             </tr>
             <tr>
                 <td><label asp-for="@Model.recette.photoFile"></label></td>
+                <!-- Label pour le champ "photoFile" -->
                 <td><input type="file" asp-for="@Model.recette.photoFile" /></td>
+                <!-- Champ pour télécharger une image de la recette -->
                 <td><span asp-validation-for="@Model.recette.photoFile" class="text-danger"></span></td>
+                <!-- Affichage des erreurs de validation pour le champ "photoFile" -->
             </tr>
         </table>
 
         @if (@ViewData["ActionFormulaire"]!.ToString() == "Modifier")
         {
+            <!-- Vérifie si l'action du formulaire est "Modifier" (si on est en mode modification) -->
             <input type="hidden" asp-for="@Model.recette.id" />
+            <!-- Champ caché pour envoyer l'ID de la recette en mode modification -->
             @if (@Model.recette.photo != null)
             {
+                <!-- Si une photo existe pour la recette -->
                 <input type="hidden" asp-for="@Model.recette.photo" />
+                <!-- Champ caché pour envoyer l'URL de la photo de la recette -->
                 <img src="@Model.recette.photo" width="250" height="250" alt="textalternatif" />
+                <!-- Affiche la photo de la recette -->
                 <div>
                     <input type="checkbox" id="supprimerPhoto" name="supprimerPhoto" />
+                    <!-- Case à cocher pour supprimer la photo -->
                     <label for="supprimerPhoto">Supprimer photo ?</label>
+                    <!-- Label pour la case à cocher -->
                 </div>
             }
             else
             {
                 <p>Cette recette n'a pas de photo.</p>
+                <!-- Message si aucune photo n'est associée à la recette -->
             }
         }
 
         <input type="submit" value="Envoyer" />
+        <!-- Bouton pour soumettre le formulaire -->
     </form>
 
     @if (ViewData.ContainsKey("ValidateMessage"))
     {
         <p>@ViewData["ValidateMessage"]</p>
+        <!-- Si un message de validation existe, l'afficher -->
     }
 
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
+        <!-- Inclut les scripts de validation pour le formulaire -->
     }
 
 </body>

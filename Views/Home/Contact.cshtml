@@ -1,27 +1,51 @@
-﻿<div class="titpag">
-<h1>Contactez-nous</h1>
+﻿<!-- Début du bloc de titre de la page -->
+<div class="titpag">
+    <!-- Titre principal de la page -->
+    <h1>Contactez-nous</h1>
 </div>
+
+<!-- Début du contenu principal de la page avec un ID spécifique pour le style ou les scripts -->
 <main id="login-page">
+
+    <!-- Conteneur principal du formulaire d'authentification -->
     <div class="auth-container" id="auth-container">
+
+        <!-- Bloc contenant le formulaire de contact -->
         <div id="login-form">
+
+            <!-- Vérifie s'il existe un message temporaire à afficher (via TempData en Razor) -->
             @if (TempData["ValidateMessage"] != null)
             {
+                <!-- Affiche le message de validation dans un paragraphe -->
                 <p class="text-black">
                     @TempData["ValidateMessage"]
                 </p>
             }
-<form>
-    <div class="mb-3">
-        <label for="name" class="form-label">Nom</label>
-        <input type="text" class="form-control" id="name" placeholder="Votre nom">
-    </div>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="Votre email">
-    </div>
-    <div class="mb-3">
-        <label for="message" class="form-label">Message</label>
-        <textarea class="form-control" id="message" rows="3"></textarea>
-    </div>
+
+            <!-- Début du formulaire de contact -->
+            <form>
+
+                <!-- Champ pour le nom -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nom</label>
+                    <input type="text" class="form-control" id="name" placeholder="Votre nom">
+                </div>
+
+                <!-- Champ pour l'email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Votre email">
+                </div>
+
+                <!-- Champ pour le message -->
+                <div class="mb-3">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea class="form-control" id="message" rows="3"></textarea>
+                </div>
+
+                <!-- Bouton pour envoyer le formulaire -->
                 <button id="btnEnvoyer" type="submit">Envoyer</button>
-</form>
+            </form>
+        </div>
+    </div>
+</main>

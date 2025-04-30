@@ -1,43 +1,59 @@
 ﻿@model Utilisateur
 @{
-    Layout = "_LayoutSpecial";
+	Layout = "_LayoutSpecial"; // Définit un layout spécifique pour cette page
 }
 <main id="login-page">
-<div class="auth-container" id="auth-container">
-    <div id="login-form">
-            @if (TempData["ValidateMessage"] != null)
-            {
-            <p class="text-black">
-                @TempData["ValidateMessage"]</p>
-            }
+	<div class="auth-container" id="auth-container">
+		<div id="login-form">
+			@*Si un message de validation est présent dans TempData (par exemple, un message de succès ou d'erreur de validation)*@
+			@if (TempData["ValidateMessage"] != null)
+			{
+				@*Affiche le message dans un paragraphe avec une couleur de texte noire *@
+				<p class="text-black">
+					@TempData["ValidateMessage"]
+				</p>
+			}
 
-        <h1>Connexion</h1>
-        <form asp-controller="Access" asp-action="SignIn" method="post">
-            <label asp-for="email">Adresse e-mail :</label>
-            <input asp-for="email" placeholder="Entrez votre e-mail" required>
-            <span asp-validation-for="email" class="text-danger"></span>
+			@*Titre de la page de connexion *@
+			<h1>Connexion</h1>
 
-            <label asp-for="password">Mot de passe :</label>
-            <input asp-for="password" type="password" placeholder="Entrez votre mot de passe" required>
-            <span asp-validation-for="password" class="text-danger"></span>
+			@*Formulaire de connexion envoyé à l'action "SignIn" du contrôleur "Access" *@
+			<form asp-controller="Access" asp-action="SignIn" method="post">
+				@*Label pour l'input du champ email*@
+				<label asp-for="email">Adresse e-mail :</label>
+				@*Champ de saisie pour l'email, avec un placeholder *@
+				<input asp-for="email" placeholder="Entrez votre e-mail" required>
+				@*Affiche les erreurs de validation pour le champ email, s'il y en a*@
+				<span asp-validation-for="email" class="text-danger"></span>
 
-            @if (Context.Request.Query.ContainsKey("ReturnURL"))
-            {
-                <input type="hidden" name="ReturnURL" value="@Context.Request.Query["ReturnURL"]">
-            }
+				@*Label pour l'input du champ mot de passe*@
+				<label asp-for="password">Mot de passe :</label>
+				@*Champ de saisie pour le mot de passe avec un type "password" pour masquer l'entrée*@
+				<input asp-for="password" type="password" placeholder="Entrez votre mot de passe" required>
+				@*Affiche les erreurs de validation pour le champ mot de passe, s'il y en a*@
+				<span asp-validation-for="password" class="text-danger"></span>
 
-                <input type="submit" value="Connexion">
+				@*Si l'URL de retour est présente dans la query string, on l'ajoute en tant que champ caché pour permettre un retour à la page initiale après la connexion*@
+				@if (Context.Request.Query.ContainsKey("ReturnURL"))
+				{
+					<input type="hidden" name="ReturnURL" value="@Context.Request.Query["ReturnURL"]">
+				}
 
-            @if (ViewData["ValidateMessage"] != null)
-            {
-                <p class="text-danger">@ViewData["ValidateMessage"]</p>
-            }
-        </form>
-        <div class="toggle">
-            Vous n'avez pas de compte ?
-            <a asp-action="SignUp">Inscrivez-vous</a>
-        </div>
-    </div>
-</div>
+				@*Bouton de soumission du formulaire*@
+				<input type="submit" value="Connexion">
+
+				@*Si un message de validation est présent dans ViewData (par exemple, une erreur de connexion), il est affiché ici*@
+				@if (ViewData["ValidateMessage"] != null)
+				{
+					<p class="text-danger">@ViewData["ValidateMessage"]</p>
+				}
+			</form>
+
+			@*Lien vers l'inscription pour les utilisateurs qui n'ont pas de compte*@
+			<div class="toggle">
+				Vous n'avez pas de compte ?
+				<a asp-action="SignUp">Inscrivez-vous</a>
+			</div>
+		</div>
+	</div>
 </main>
-

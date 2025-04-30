@@ -1,174 +1,159 @@
-﻿<!DOCTYPE html>
-<html lang="fr">
+﻿<!DOCTYPE html> <!-- Déclaration du type de document HTML5 -->
+<html lang="fr"> <!-- Début de la page HTML avec la langue définie sur le français -->
 <head>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - SaveursInedites</title>
-	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-	<link rel="stylesheet" href="~/SaveursInedites.styles.css" asp-append-version="true" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-	<title>Accueil</title>
-
+	<meta charset="utf-8" /> <!-- Encodage des caractères en UTF-8 -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Responsive design pour s'adapter à tous les écrans -->
+	<title>@ViewData["Title"] - SaveursInedites</title> <!-- Titre dynamique de la page -->
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> <!-- Inclusion de Bootstrap (via LibMan) -->
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" /> <!-- Feuille de style personnalisée avec versioning -->
+	<link rel="stylesheet" href="~/SaveursInedites.styles.css" asp-append-version="true" /> <!-- Feuille de style spécifique au projet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- FontAwesome pour les icônes -->
+	<title>Accueil</title> <!-- Titre statique de secours -->
 </head>
 <body>
-	<div! class="background-container">
-		<header>
-			<div class="logo_wrapper">
-				<partial name="_CookieConsentPartial" />
-				<div class="q_logo"><span>Saveurs Inédites</span></div>
+	<div! class="background-container"> <!-- ERREUR : "div!" est invalide (probablement une faute de frappe) -->
+		<header> <!-- Début de l'en-tête -->
+			<div class="logo_wrapper"> <!-- Conteneur du logo -->
+				<partial name="_CookieConsentPartial" /> <!-- Inclusion du bandeau de consentement aux cookies -->
+				<div class="q_logo"><span>Saveurs Inédites</span></div> <!-- Affichage du logo/nom du site -->
 			</div>
 
 			<!-- Menu -->
-			<nav class="menu" id="myMenu">
-				<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+			<nav class="menu" id="myMenu"> <!-- Barre de navigation principale -->
+				<button class="menu-toggle" onclick="toggleMenu()">☰</button> <!-- Bouton hamburger pour les petits écrans -->
 				<ul>
-					@* <li><a href="./accueil.html">Accueil</a></li> *@
-					<li class ="nav-item">
-						<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-					
+					@* <li><a href="./accueil.html">Accueil</a></li> *@ <!-- Lien HTML commenté -->
 					<li class="nav-item">
-					<a asp-area="" asp-controller="Recettes" asp-action="PageRecherche">Recherche</a>
+						<a asp-area="" asp-controller="Home" asp-action="Index">Home</a> <!-- Lien vers l'accueil -->
 
 					<li class="nav-item">
-						<a asp-area="" asp-controller="Recettes" asp-action="Index">Detail</a>
+					<a asp-area="" asp-controller="Recettes" asp-action="PageRecherche">Recherche</a> <!-- Lien vers la recherche -->
 
 					<li class="nav-item">
-						<a asp-area="" asp-controller="Recettes" asp-action="nouveau">Ajout</a>
+						<a asp-area="" asp-controller="Recettes" asp-action="Index">Detail</a> <!-- Lien vers les détails de recettes -->
 
 					<li class="nav-item">
-						<a asp-area="" asp-controller="Recettes" asp-action="Index">Modifier</a>
+						<a asp-area="" asp-controller="Recettes" asp-action="nouveau">Ajout</a> <!-- Lien vers l'ajout de recette -->
 
-										@* Onglet "Administration" visible uniquement pour les administrateurs *@
-										@if (User.IsInRole("admin"))
-										{
+					<li class="nav-item">
+						<a asp-area="" asp-controller="Recettes" asp-action="Index">Modifier</a> <!-- (Répétition d’Index ici) -->
+										@if (User.IsInRole("admin")) @*<!-- Bloc visible uniquement si l'utilisateur est admin -->*@
+					{
 						<li class="nav-item">
-							<a asp-area="" asp-controller="Utilisateurs" asp-action="Index">Administration</a>
+							<a asp-area="" asp-controller="Utilisateurs" asp-action="Index">Administration</a> <!-- Lien vers l'administration -->
 						</li>
-										}
+					}
 
-										<li class="dropdown compte">
-						<a href="#" class="dropbtn" onclick="submitLogoutForm(event)">
+					<li class="dropdown compte">
+						<a href="#" class="dropbtn" onclick="submitLogoutForm(event)"> <!-- Bouton de déconnexion -->
+							<!-- Icône utilisateur SVG -->
 							<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
-								<path fill="#fff" d="M12 1.5C6.201 1.5 1.5 6.201 1.5 12S6.201 22.5 12 22.5S22.5 17.799 22.5 12S17.799 1.5 12 1.5M2.5 12a9.5 9.5 0 1 1 16.4 6.53a4.64 4.64 0 0 0-1.219-2.381c-.743-.774-1.679-1.228-2.501-1.484c-.527-.164-1.037.023-1.39.26c-.383.259-1.013.575-1.79.575s-1.407-.316-1.79-.574c-.353-.239-.863-.425-1.39-.261c-.822.256-1.758.71-2.501 1.484a4.64 4.64 0 0 0-1.22 2.38A9.47 9.47 0 0 1 2.5 12m3.505 7.37c.056-1.14.476-1.947 1.035-2.528c.59-.615 1.36-.999 2.078-1.223c.128-.04.319-.009.533.136c.477.322 1.302.745 2.349.745s1.872-.423 2.349-.745c.214-.145.405-.176.533-.136c.719.224 1.487.608 2.078 1.223c.559.58.979 1.389 1.035 2.528A9.46 9.46 0 0 1 12 21.5a9.46 9.46 0 0 1-5.995-2.13M9.5 10c0-1.385 1.08-2.5 2.5-2.5s2.5 1.115 2.5 2.5s-1.08 2.5-2.5 2.5s-2.5-1.114-2.5-2.5M12 6.5A3.47 3.47 0 0 0 8.5 10c0 1.928 1.519 3.5 3.5 3.5s3.5-1.572 3.5-3.5s-1.519-3.5-3.5-3.5" />
+								<path fill="#fff" d="..."/> <!-- Icône d'utilisateur stylisée -->
 							</svg>
 						</a>
 						<form id="logoutForm" action="/Access/LogOut" method="post" style="display: none;">
-							<!-- Form is hidden, it will be submitted via JS -->
+							<!-- Formulaire de déconnexion caché -->
 						</form>
 					</li>
 
 					<script>
 						function submitLogoutForm(event) {
-							event.preventDefault(); // Empêche le comportement par défaut du lien
-							document.getElementById('logoutForm').submit(); // Soumet le formulaire de déconnexion
+							event.preventDefault(); // Empêche la navigation
+							document.getElementById('logoutForm').submit(); // Soumet le formulaire
 						}
 					</script>
-
-
 				</ul>
 			</nav>
-
 		</header>
-		<div class="main-content">
-			<div class="title_subtitle_holder">
-				<h1>@ViewData["titrePage"]</h1>
 
+		<div class="main-content"> <!-- Conteneur principal -->
+			<div class="title_subtitle_holder"> <!-- Titre de la page -->
+				<h1>@ViewData["titrePage"]</h1> <!-- Titre dynamique -->
 			</div>
 		</div>
 
-		<main role="main" class="">
-			@RenderBody()
-		
+		<main role="main" class=""> <!-- Contenu principal de la page -->
+			@RenderBody() <!-- Injection du contenu de la vue -->
 		</main>
-		<!-- Add icon library -->
+
+		<!-- Ajout d'une autre version de FontAwesome (ancienne version) -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-		@* <span class="fa fa-star checked"></span>
-		<span class="fa fa-star checked"></span>
-		<span class="fa fa-star checked"></span>
-		<span class="fa fa-star"></span>
-		<span class="fa fa-star"></span> *@
-		
-		<a id="back_to_top" href="#" class="on">
+		@* Icônes d'étoiles commentées *@
+
+		<a id="back_to_top" href="#" class="on"> <!-- Bouton retour en haut -->
 			<span class="circle">
-				<i class="fas fa-arrow-up"></i>
+				<i class="fas fa-arrow-up"></i> <!-- Icône flèche vers le haut -->
 			</span>
 		</a>
 
-
 		<!-- Pied de page -->
 		<footer class="footer">
-			<div class="icons-wrapper">
+			<div class="icons-wrapper"> <!-- Réseaux sociaux -->
 				<a href="https://twitter.com/nom_du_compte" target="_blank" rel="noopener">
 					<img src="@Url.Content("/icones/pajamas--twitter.svg")" width="36" height="36" alt="X (Twitter)">
 				</a>
 
-@* 				<img src="@Url.Content("/icones/pajamas--twitter.svg")" width="36" height="36" alt="Pajamas--twitter">
- *@				<a href="https://facebook.com/nom_du_compte" target="_blank" rel="noopener">
+				<a href="https://facebook.com/nom_du_compte" target="_blank" rel="noopener">
 					<img src="@Url.Content("/icones/flowbite--facebook-solid.svg")" width="36" height="36" alt="Facebook">
 				</a>
-
-
 
 				<a href="https://instagram.com/nom_du_compte" target="_blank" rel="noopener">
 					<img src="@Url.Content("/icones/akar-icons--instagram-fill.svg")" width="36" height="36" alt="Instagram">
 				</a>
-
 			</div>
 
-
-
-			<div class="footer-content">
+			<div class="footer-content"> <!-- Contenu bas de page -->
 				<div class="logo_wrapper">
 					<div class="q_logo"><span>Saveurs Inédites</span></div>
 				</div>
 
-				<nav class="menubas">
+				<nav class="menubas"> <!-- Menu bas de page -->
 					<ul>
 						<li class="nav-item">
 							<a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						<li class="nav-item">
 							<a asp-area="" asp-controller="Recettes" asp-action="PageRecherche">Recherche</a>
-
 						<li class="nav-item">
 							<a asp-area="" asp-controller="Recettes" asp-action="Index">Recettes</a>
-
 						<li class="nav-item">
 							<a asp-area="" asp-controller="Recettes" asp-action="nouveau">Ajout</a>
 
-										@* Onglet "Administration" visible uniquement pour les administrateurs *@
-										@if (User.IsInRole("Admin"))
-										{
+						@if (User.IsInRole("Admin")) @*<!-- Si admin -->*@
+						{
 							<li class="nav-item">
 								<a asp-area="" asp-controller="Utilisateurs" asp-action="Index">Administration</a>
 							</li>
-										}
-						
-										<li class="dropdown compte">
+						}
+
+						<li class="dropdown compte">
 							<a href="#" class="dropbtn" onclick="submitLogoutForm(event)">
 								<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24">
-									<path fill="#fff" d="M12 1.5C6.201 1.5 1.5 6.201 1.5 12S6.201 22.5 12 22.5S22.5 17.799 22.5 12S17.799 1.5 12 1.5M2.5 12a9.5 9.5 0 1 1 16.4 6.53a4.64 4.64 0 0 0-1.219-2.381c-.743-.774-1.679-1.228-2.501-1.484c-.527-.164-1.037.023-1.39.26c-.383.259-1.013.575-1.79.575s-1.407-.316-1.79-.574c-.353-.239-.863-.425-1.39-.261c-.822.256-1.758.71-2.501 1.484a4.64 4.64 0 0 0-1.22 2.38A9.47 9.47 0 0 1 2.5 12m3.505 7.37c.056-1.14.476-1.947 1.035-2.528c.59-.615 1.36-.999 2.078-1.223c.128-.04.319-.009.533.136c.477.322 1.302.745 2.349.745s1.872-.423 2.349-.745c.214-.145.405-.176.533-.136c.719.224 1.487.608 2.078 1.223c.559.58.979 1.389 1.035 2.528A9.46 9.46 0 0 1 12 21.5a9.46 9.46 0 0 1-5.995-2.13M9.5 10c0-1.385 1.08-2.5 2.5-2.5s2.5 1.115 2.5 2.5s-1.08 2.5-2.5 2.5s-2.5-1.114-2.5-2.5M12 6.5A3.47 3.47 0 0 0 8.5 10c0 1.928 1.519 3.5 3.5 3.5s3.5-1.572 3.5-3.5s-1.519-3.5-3.5-3.5" />
+									<path fill="#fff" d="..."/> <!-- Icône utilisateur -->
 								</svg>
 							</a>
 							<form id="logoutForm" action="/Access/LogOut" method="post" style="display: none;">
-								
+								<!-- Formulaire caché -->
 							</form>
 						</li>
 					</ul>
 				</nav>
-			
-		<li class="contact-button">
-			<a class="contact-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
-		</li>
+
+				<li class="contact-button">
+					<a class="contact-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a> <!-- Lien vers la page de contact -->
+				</li>
 			</div>
+
 			<div class="footer-copyright">
-				&copy; 2025 Tous droits réservés. / <a href="/Home/Privacy">Mentions Légales</a>
+				&copy; 2025 Tous droits réservés. / <a href="/Home/Privacy">Mentions Légales</a> <!-- Mentions légales -->
 			</div>
 		</footer>
-		<script src="~/lib/jquery/dist/jquery.min.js"></script>
-		<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="~/js/site.js" asp-append-version="true"></script>
-		@await RenderSectionAsync("Scripts", required: false)
+
+		<!-- Scripts JavaScript -->
+		<script src="~/lib/jquery/dist/jquery.min.js"></script> <!-- jQuery -->
+		<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
+		<script src="~/js/site.js" asp-append-version="true"></script> <!-- Script personnalisé -->
+		@await RenderSectionAsync("Scripts", required: false) <!-- Section scripts supplémentaire facultative -->
 </body>
 </html>
+@*ajout@*@

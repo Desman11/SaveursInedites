@@ -1,31 +1,43 @@
 ﻿@model Utilisateur
 @{
-	Layout = "_LayoutSpecial";
+	Layout = "_LayoutSpecial"; // Définit un layout spécifique pour cette page
 }
 <main id="login-page">
 	<div class="auth-container" id="auth-container">
 		<div id="login-form">
-<h1>Inscription</h1>
-<form asp-controller="Access" asp-action="SignUp" method="post">
-	
-			<label asp-for="@Model.identifiant">Identifiant</label>
+			@*Titre de la page d'inscription*@
+			<h1>Inscription</h1>
+
+			@*Formulaire d'inscription envoyé à l'action "SignUp" du contrôleur "Access"*@
+			<form asp-controller="Access" asp-action="SignUp" method="post">
+
+				@*Label et champ pour l'identifiant*@
+				<label asp-for="@Model.identifiant">Identifiant</label>
 				<input asp-for="@Model.identifiant" placeholder="Entrez un identifiant" required>
-			<span asp-validation-for="@Model.identifiant" class="text-danger"></span>
+				@*Affiche les erreurs de validation pour l'identifiant, s'il y en a*@
+				<span asp-validation-for="@Model.identifiant" class="text-danger"></span>
 
-			<label asp-for="@Model.email">Adresse e-mail :</label>
+				@*Label et champ pour l'email*@
+				<label asp-for="@Model.email">Adresse e-mail :</label>
 				<input asp-for="@Model.email" placeholder="Entrez votre e-mail" required>
-			<span asp-validation-for="@Model.email" class="text-danger"></span>
+				@*Affiche les erreurs de validation pour l'email, s'il y en a*@
+				<span asp-validation-for="@Model.email" class="text-danger"></span>
 
-
+				@*Label et champ pour le mot de passe*@
 				<label asp-for="@Model.password">Mot de passe :</label>
 				<input asp-for="@Model.password" placeholder="Entrez un mot de passe" required>
-			<span asp-validation-for="@Model.password" class="text-danger"></span>
-		</tr>
-	</table>
-	<input type="submit" value="Inscription">
-	@if (ViewData["ValidateMessage"] != null)
-	{
-		<p>@ViewData["ValidateMessage"]</p>
-	}
-</form>
-			
+				@*Affiche les erreurs de validation pour le mot de passe, s'il y en a*@
+				<span asp-validation-for="@Model.password" class="text-danger"></span>
+
+				@*Bouton de soumission pour inscrire l'utilisateur*@
+				<input type="submit" value="Inscription">
+
+				@*Si un message de validation est présent dans ViewData (par exemple, une erreur d'inscription), il est affiché ici*@
+				@if (ViewData["ValidateMessage"] != null)
+				{
+					<p>@ViewData["ValidateMessage"]</p>
+				}
+			</form>
+		</div>
+	</div>
+</main>

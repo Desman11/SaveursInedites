@@ -1,65 +1,92 @@
 ﻿@model List<Recette>
-
+<!-- Définit que la vue attend une liste d'objets de type Recette comme modèle -->
 @{
     ViewData["Title"] = "Utilisateurs";
+    <!-- Définir le titre de la page comme "Utilisateurs" -->
 }
 
 @if (TempData.ContainsKey("ValidateMessage"))
 {
     <p>@TempData["ValidateMessage"]</p>
+    <!-- Si un message de validation existe dans TempData, il est affiché ici -->
 }
 
 <div class="titpag">
-    
-    
+    <!-- Début du bloc contenant le titre de la page -->
+
     <h1>Recettes</h1>
-   
+    <!-- Affiche le titre "Recettes" -->
+
     <table>
+        <!-- Début du tableau pour afficher les informations des recettes -->
         <thead>
             <tr>
+                <!-- Entête du tableau -->
                 <th>Id</th>
+                <!-- Colonne pour l'ID de la recette -->
                 <th>Nom</th>
+                <!-- Colonne pour le nom de la recette -->
                 <th>Temps de Préparation</th>
+                <!-- Colonne pour le temps de préparation -->
                 <th>Temps de Cuisson</th>
+                <!-- Colonne pour le temps de cuisson -->
                 <th>Difficulté</th>
+                <!-- Colonne pour la difficulté -->
                 <th>Action</th>
+                <!-- Colonne pour les actions à effectuer (Détails, Modifier, Supprimer) -->
             </tr>
         </thead>
 
         <tbody>
+            <!-- Début du corps du tableau -->
             @foreach (var recette in Model)
             {
+                <!-- Pour chaque objet recette dans le modèle (la liste) -->
                 <tr>
+                    <!-- Début de la ligne pour chaque recette -->
 
                     <td>@recette.id</td>
-                    <td data-label="Nom">@recette.nom</td>
+                    <!-- Affiche l'ID de la recette -->
 
-              
+                    <td data-label="Nom">@recette.nom</td>
+                    <!-- Affiche le nom de la recette -->
 
                     <td data-label="Temps_preparation">@recette.temps_preparation</td>
+                    <!-- Affiche le temps de préparation de la recette -->
 
                     <td data-label="Temps_cuisson">@recette.temps_cuisson</td>
+                    <!-- Affiche le temps de cuisson de la recette -->
 
                     <td data-label="Difficulte">@recette.difficulte</td>
+                    <!-- Affiche la difficulté de la recette -->
 
                     <td>
                         <a asp-controller="Recettes" asp-action="Detail" asp-route-id="@recette.id">Détails</a>
+                        <!-- Lien vers la page de détails de la recette -->
                     </td>
                     <td>
                         <a asp-controller="Recettes" asp-action="Modifier" asp-route-id="@recette.id">Modifier</a>
+                        <!-- Lien vers la page de modification de la recette -->
                     </td>
-                  @*   @if (User.IsInRole("Admin"))
+
+                    @* Si l'utilisateur a un rôle d'admin, afficher l'option de suppression *@
+                    @*   @if (User.IsInRole("Admin"))
                     { *@
-                        <td>
-                            <form asp-controller="Recettes" asp-action="Supprimer" method="post">
-                                <input type="hidden" name="idRecette" value="@recette.id">
-                                <button type="button" class="suppressionButton" data-nom="@recette.nom">Supprimer</button>
-                            </form>
-                        </td>
-                  @*   } *@
+                    <td>
+                        <form asp-controller="Recettes" asp-action="Supprimer" method="post">
+                            <!-- Formulaire pour supprimer une recette -->
+                            <input type="hidden" name="idRecette" value="@recette.id">
+                            <!-- Champ caché pour envoyer l'ID de la recette à supprimer -->
+                            <button type="button" class="suppressionButton" data-nom="@recette.nom">Supprimer</button>
+                            <!-- Bouton pour supprimer la recette -->
+                        </form>
+                    </td>
+                    @*   } *@
                 </tr>
+                <!-- Fin de la ligne pour une recette -->
             }
         </tbody>
-
+        <!-- Fin du corps du tableau -->
     </table>
 </div>
+<!-- Fin du bloc contenant le titre et le tableau -->

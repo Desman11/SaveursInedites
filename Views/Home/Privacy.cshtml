@@ -1,31 +1,44 @@
 ﻿@{
+    // Définition du titre affiché dans la balise <title> du layout Razor, si utilisé
     ViewData["Title"] = "Privacy Policy";
 }
+
 <!DOCTYPE html>
+<!-- Déclaration du type de document HTML5 -->
 <html lang="fr">
 <head>
+    <!-- Définition du jeu de caractères -->
     <meta charset="UTF-8">
+
+    <!-- Responsive design : adaptation à la taille de l'écran -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Titre affiché dans l’onglet du navigateur -->
     <title>Politique de Confidentialité</title>
+
+    <!-- Styles CSS internes -->
     <style>
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            line-height: 1.6;
+            font-family: Arial, sans-serif; /* Police simple et lisible */
+            margin: 40px; /* Marge autour du contenu */
+            line-height: 1.6; /* Hauteur de ligne améliorant la lisibilité */
         }
 
         h1, h2 {
-            color: #333;
+            color: #333; /* Gris foncé pour les titres */
         }
     </style>
 </head>
 <body>
+    <!-- Titre principal de la page -->
     <h1>Politique de Confidentialité</h1>
     <p>Dernière mise à jour : 2025-04 </p>
 
+    <!-- Section 1 : Introduction -->
     <h2>1. Introduction</h2>
     <p>Votre confidentialité est importante pour nous. Cette politique explique quelles données nous collectons et comment nous les utilisons.</p>
 
+    <!-- Section 2 : Données collectées -->
     <h2>2. Données collectées</h2>
     <p>Nous pouvons collecter les types de données suivants :</p>
     <ul>
@@ -33,6 +46,7 @@
         <li>Données de navigation (adresse IP, cookies, etc.)</li>
     </ul>
 
+    <!-- Section 3 : Utilisation des données -->
     <h2>3. Utilisation des données</h2>
     <p>Nous utilisons ces données pour :</p>
     <ul>
@@ -41,13 +55,20 @@
         <li>Respecter nos obligations légales</li>
     </ul>
 
+    <!-- Section 4 : Partage des données -->
     <h2>4. Partage des données</h2>
     <p>Nous ne partageons pas vos données avec des tiers sauf si requis par la loi.</p>
 
+    <!-- Section 5 : Vos droits -->
     <h2>5. Vos droits</h2>
     <p>Vous avez le droit d'accéder, de modifier ou de supprimer vos données personnelles.</p>
 
+    <!-- Section 6 : Contact -->
     <h2>6. Contact</h2>
-    <p>Pour toute question sur cette politique, contactez-nous à : <a href="mailto:contact@example.com">contact@example.com</a></p>
+    <p>
+        Pour toute question sur cette politique, contactez-nous à :
+        <a href="mailto:contact@example.com">contact@example.com</a>
+    </p>
 </body>
 </html>
+
