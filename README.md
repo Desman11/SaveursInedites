@@ -1,12 +1,13 @@
 Formation CDA # SaveursInedites
 
-#Contexte et objectifs
+# Contexte et objectifs <!-- omit from toc -->
 
-Ce projet s’inscrit dans une démarche de formation et d’apprentissage du
+
+- *Ce projet s’inscrit dans une démarche de formation et d’apprentissage du
 développement web. Il est réalisé dans un environnement simulé où les
 participants jouent le rôle de développeurs travaillant pour une entreprise
 fictive, "Saveurs Inédites", spécialisée dans la création et le partage de recettes
-culinaires innovantes.
+culinaires innovantes*
 
 L’objectif est de développer une application web dynamique et interactive
 complète en mode agile, avec des échanges réguliers et une approche itérative,
